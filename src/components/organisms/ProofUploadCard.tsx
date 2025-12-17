@@ -1,33 +1,22 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import { Icon } from '../atoms/Icon';
+import { useFileUpload } from '../../hooks/useFileUpload';
 
 interface ProofUploadCardProps {
     onFileSelect: (file: File) => void;
 }
 
 export const ProofUploadCard: React.FC<ProofUploadCardProps> = ({ onFileSelect }) => {
-    const inputRef = useRef<HTMLInputElement>(null);
-    const [isDragging, setIsDragging] = useState(false);
-    const [preview, setPreview] = useState<string | null>(null);
-
-    const handleFile = (file: File) => {
-        if (file && file.type.startsWith('image/')) {
-            setPreview(URL.createObjectURL(file));
-            onFileSelect(file);
-        }
-    };
-
-    const handleDrop = (e: React.DragEvent) => {
-        e.preventDefault();
-        setIsDragging(false);
-        const file = e.dataTransfer.files[0];
-        handleFile(file);
-    };
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file) handleFile(file);
-    };
+    const {
+        inputRef,
+        isDragging,
+        preview,
+        handleDrop,
+        handleChange,
+        handleDragOver,
+        handleDragLeave,
+        clearPreview
+    } = useFileUpload({ onFileSelect });
 
     return (
         <div className="bg-white dark:bg-surface-dark rounded-xl p-6 shadow-sm border border-[#f0f2f4] dark:border-[#2a3441] flex flex-col h-auto">
@@ -45,7 +34,7 @@ export const ProofUploadCard: React.FC<ProofUploadCardProps> = ({ onFileSelect }
                 <div className="relative rounded-lg overflow-hidden">
                     <img src={preview} alt="Proof preview" className="w-full h-40 object-cover" />
                     <button
-                        onClick={() => setPreview(null)}
+                        onClick={clearPreview}
                         className="absolute top-2 right-2 bg-black/50 text-white p-1 rounded-full hover:bg-black/70 transition-colors"
                     >
                         <Icon name="close" size="sm" />
@@ -54,12 +43,12 @@ export const ProofUploadCard: React.FC<ProofUploadCardProps> = ({ onFileSelect }
             ) : (
                 <div
                     onClick={() => inputRef.current?.click()}
-                    onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
-                    onDragLeave={() => setIsDragging(false)}
+                    onDragOver={handleDragOver}
+                    onDragLeave={handleDragLeave}
                     onDrop={handleDrop}
                     className={`flex-1 border-2 border-dashed rounded-lg p-6 flex flex-col items-center justify-center text-center cursor-pointer transition-colors ${isDragging
-                            ? 'border-primary bg-blue-50 dark:bg-blue-900/10'
-                            : 'border-[#d1d5db] dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#20293a]'
+                        ? 'border-primary bg-blue-50 dark:bg-blue-900/10'
+                        : 'border-[#d1d5db] dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#20293a]'
                         }`}
                 >
                     <div className="size-12 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-primary mb-3 group-hover:scale-110 transition-transform">

@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Icon } from '../atoms/Icon';
 import { Badge } from '../atoms/Badge';
 import { Button } from '../atoms/Button';
+import { useClock } from '../../hooks/useClock';
 
 interface ClockInCardProps {
     isClockedIn: boolean;
@@ -14,17 +15,7 @@ export const ClockInCard: React.FC<ClockInCardProps> = ({
     onClockAction,
     isLoading = false,
 }) => {
-    const [time, setTime] = useState(new Date());
-
-    useEffect(() => {
-        const timerId = setInterval(() => setTime(new Date()), 1000);
-        return () => clearInterval(timerId);
-    }, []);
-
-    const hours = time.getHours();
-    const minutes = time.getMinutes();
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-    const displayHours = hours % 12 || 12;
+    const { displayHours, minutes, ampm } = useClock();
 
     return (
         <div className="bg-white dark:bg-surface-dark rounded-xl p-6 md:p-10 shadow-sm border border-[#f0f2f4] dark:border-[#2a3441] flex flex-col items-center justify-center text-center relative overflow-hidden">

@@ -1,5 +1,4 @@
-// TODO: Uncomment when switching to real API
-// import apiClient from './apiClient';
+import apiClient, { type ApiResponse } from './apiClient';
 
 export interface AttendanceSubmission {
     image: Blob;
@@ -8,31 +7,31 @@ export interface AttendanceSubmission {
     longitude?: number;
 }
 
+export interface AttendanceResponse {
+    id: string;
+    userId: string;
+    checkInTime: string;
+    photoUrl: string;
+    checkOutTime?: string | null;
+}
+
 export const attendanceService = {
-    submitAttendance: async (data: AttendanceSubmission): Promise<void> => {
+    submitAttendance: async (data: AttendanceSubmission): Promise<AttendanceResponse> => {
         const formData = new FormData();
+        // Contract explicitly requires 'photo' as the key
         formData.append('photo', data.image, 'attendance.webp');
-        formData.append('timestamp', data.timestamp);
-        if (data.latitude) formData.append('latitude', data.latitude.toString());
-        if (data.longitude) formData.append('longitude', data.longitude.toString());
 
-        // In a real app:
-        // await apiClient.post('/attendance/clock-in', formData, {
-        //     headers: {
-        //         'Content-Type': 'multipart/form-data',
-        //     },
-        // });
+        // We can send these if the backend supports them, otherwise they might be ignored
+        // Keeping them as they might be useful metadata if backend allows
+        // formData.append('timestamp', data.timestamp);
+        // if (data.latitude) formData.append('latitude', data.latitude.toString());
+        // if (data.longitude) formData.append('longitude', data.longitude.toString());
 
-        // Mock implementation
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                console.log('Attendance submitted:', {
-                    timestamp: data.timestamp,
-                    size: data.image.size,
-                    type: data.image.type
-                });
-                resolve();
-            }, 1500);
+        const response = await apiClient.post<ApiResponse<AttendanceResponse>>('/attendance/check-in', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
         });
+        return response.data.data;
     },
 };

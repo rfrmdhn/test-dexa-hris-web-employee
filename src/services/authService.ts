@@ -1,9 +1,8 @@
-// TODO: Uncomment when switching to real API
-// import apiClient from './apiClient';
+import apiClient, { type ApiResponse } from './apiClient';
 
 export interface LoginCredentials {
     email: string;
-    password?: string; // Optional for now as per some designs, but usually required
+    password?: string;
 }
 
 export interface User {
@@ -13,34 +12,19 @@ export interface User {
     role: 'EMPLOYEE' | 'ADMIN';
 }
 
-export interface LoginResponse {
-    token: string;
+export interface LoginResponseData {
+    access_token: string;
     user: User;
 }
 
 export const authService = {
-    login: async (credentials: LoginCredentials): Promise<LoginResponse> => {
-        // In a real app:
-        // const response = await apiClient.post<LoginResponse>('/auth/login', credentials);
-        // return response.data;
-
-        // Mock implementation for development
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                if (credentials.email.includes('error')) {
-                    reject({ response: { data: { message: 'Invalid credentials' }, status: 401 } });
-                } else {
-                    resolve({
-                        token: 'mock-jwt-token-' + Date.now(),
-                        user: {
-                            id: '1',
-                            name: 'John Doe',
-                            email: credentials.email,
-                            role: 'EMPLOYEE'
-                        }
-                    });
-                }
-            }, 1000);
-        });
+    login: async (credentials: LoginCredentials): Promise<LoginResponseData> => {
+        const response = await apiClient.post<ApiResponse<LoginResponseData>>('/auth/login', credentials);
+        return response.data.data;
     },
+
+    register: async (data: any): Promise<User> => {
+        const response = await apiClient.post<ApiResponse<User>>('/auth/register', data);
+        return response.data.data;
+    }
 };

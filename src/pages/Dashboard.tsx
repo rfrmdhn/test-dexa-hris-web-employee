@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { DashboardLayout } from '../components/templates/DashboardLayout';
 import { ClockInCard } from '../components/organisms/ClockInCard';
 import { ProofUploadCard } from '../components/organisms/ProofUploadCard';
@@ -7,7 +7,7 @@ import { TimeWorkedCard } from '../components/molecules/TimeWorkedCard';
 import { WeeklySummaryCard } from '../components/molecules/WeeklySummaryCard';
 import { Icon } from '../components/atoms/Icon';
 import { Button } from '../components/atoms/Button';
-import { useAuthStore } from '../store/useAuthStore';
+import { useDashboard } from '../hooks/useDashboard';
 import type { ActivityItemData } from '../components/molecules/ActivityItem';
 
 // Mock data - would come from API in production
@@ -18,29 +18,16 @@ const mockActivities: ActivityItemData[] = [
 ];
 
 const Dashboard: React.FC = () => {
-    const user = useAuthStore((state) => state.user);
-    const [isClockedIn, setIsClockedIn] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
-
-    // Get current date info
-    const now = new Date();
-    const dayName = now.toLocaleDateString('en-US', { weekday: 'long' });
-    const monthDay = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
-    const hour = now.getHours();
-    const greeting = hour < 12 ? 'Good Morning' : hour < 18 ? 'Good Afternoon' : 'Good Evening';
-
-    const handleClockAction = async () => {
-        setIsLoading(true);
-        // Simulate API call
-        await new Promise((resolve) => setTimeout(resolve, 1500));
-        setIsClockedIn(!isClockedIn);
-        setIsLoading(false);
-    };
-
-    const handleFileSelect = (file: File) => {
-        console.log('Selected file:', file.name);
-        // TODO: Upload file to API
-    };
+    const {
+        user,
+        isClockedIn,
+        isLoading,
+        dayName,
+        monthDay,
+        greeting,
+        handleClockAction,
+        handleFileSelect
+    } = useDashboard();
 
     return (
         <DashboardLayout>
