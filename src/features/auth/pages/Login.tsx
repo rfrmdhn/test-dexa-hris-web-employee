@@ -4,13 +4,14 @@ import { AuthLayout } from '@/components/templates/AuthLayout';
 import { Card } from '@/components/atoms/Card';
 import { LoginForm } from '../components/LoginForm';
 
+import { SupportContact } from '@/components/molecules/SupportContact';
 
 const Login: React.FC = () => {
     useAuthRedirect();
 
     return (
         <AuthLayout>
-            <Card>
+            <Card className="w-full max-w-md mx-auto shadow-none border-none bg-transparent space-y-8">
                 <div className="text-center space-y-2">
                     <h1 className="text-3xl font-bold leading-tight tracking-tight text-[#111318] dark:text-white">
                         Employee Login
@@ -22,7 +23,7 @@ const Login: React.FC = () => {
 
                 <LoginForm />
 
-                {/* <SupportContact /> */}
+                <SupportContact />
             </Card>
         </AuthLayout>
     );
