@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Icon } from '../atoms/Icon';
-import { Avatar } from '../atoms/Avatar';
-import { useAuthStore } from '../../store/useAuthStore';
+import { Icon } from '@/components/atoms/Icon';
+import { Avatar } from '@/components/atoms/Avatar';
+import { useAuthStore } from '@/features/auth/stores/useAuthStore';
 
 const navLinks = [
     { label: 'Dashboard', path: '/dashboard' },
@@ -36,8 +36,8 @@ export const TopNavBar: React.FC = () => {
                             key={link.path}
                             to={link.path}
                             className={`text-sm font-medium leading-normal transition-colors ${isActive
-                                    ? 'text-primary relative after:content-[""] after:absolute after:-bottom-4 after:left-0 after:w-full after:h-0.5 after:bg-primary'
-                                    : 'text-[#616f89] dark:text-gray-400 hover:text-primary dark:hover:text-white'
+                                ? 'text-primary relative after:content-[""] after:absolute after:-bottom-4 after:left-0 after:w-full after:h-0.5 after:bg-primary'
+                                : 'text-[#616f89] dark:text-gray-400 hover:text-primary dark:hover:text-white'
                                 }`}
                         >
                             {link.label}

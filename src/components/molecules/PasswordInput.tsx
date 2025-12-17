@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Input, type InputProps } from '../atoms/Input';
+import { Input, type InputProps } from '@/components/atoms/Input';
 
 export const PasswordInput: React.FC<InputProps> = (props) => {
     const [showPassword, setShowPassword] = useState(false);

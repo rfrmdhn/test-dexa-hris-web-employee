@@ -1,5 +1,5 @@
 import React from 'react';
-import { Logo } from '../atoms/Logo';
+import { Logo } from '@/components/atoms/Logo';
 
 interface AuthLayoutProps {
     children: React.ReactNode;

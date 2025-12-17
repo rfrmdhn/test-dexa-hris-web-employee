@@ -1,11 +1,11 @@
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { useAuthStore } from './store/useAuthStore';
+import { useAuthStore } from '@/features/auth/stores/useAuthStore';
 
 // Lazy load pages
-const Login = lazy(() => import('./pages/Login'));
-const Dashboard = lazy(() => import('./pages/Dashboard'));
-const Attendance = lazy(() => import('./pages/Attendance'));
+const Login = lazy(() => import('@/features/auth/pages/Login'));
+const Dashboard = lazy(() => import('@/features/dashboard/pages/Dashboard'));
+const Attendance = lazy(() => import('@/features/attendance/pages/Attendance'));
 
 // Loading component
 const LoadingSpinner = () => (
