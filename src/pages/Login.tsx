@@ -3,7 +3,7 @@ import { useAuthRedirect } from '../hooks/useAuthRedirect';
 import { AuthLayout } from '../components/templates/AuthLayout';
 import { Card } from '../components/atoms/Card';
 import { LoginForm } from '../components/organisms/LoginForm';
-import { SupportContact } from '../components/molecules/SupportContact';
+
 
 const Login: React.FC = () => {
     useAuthRedirect();
