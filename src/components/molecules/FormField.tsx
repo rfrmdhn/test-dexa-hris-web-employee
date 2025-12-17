@@ -16,7 +16,7 @@ export const FormField: React.FC<FormFieldProps> = ({
     return (
         <div className="flex flex-col gap-2">
             <div className="flex justify-between items-center">
-                <label className="text-base font-medium leading-normal text-[#111318] dark:text-gray-200">
+                <label className="text-base font-medium leading-normal text-[#101622] dark:text-[#101622]">
                     {label}
                 </label>
                 {rightElement}

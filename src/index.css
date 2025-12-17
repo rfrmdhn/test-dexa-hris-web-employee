@@ -3,7 +3,7 @@
 @theme {
   --color-primary: #135bec;
   --color-background-light: #f6f6f8;
-  --color-background-dark: #101622;
+  --color-background-dark: #FAFAFA;
   --color-background-page: #f9fafb;
   --font-display: "Inter", "sans-serif";
   --radius-lg: 0.5rem;
@@ -12,6 +12,6 @@
 
 @layer base {
   body {
-    @apply font-display antialiased bg-background-page dark:bg-gray-900 text-[#111318] dark:text-white;
+    @apply font-display antialiased bg-background-page dark:bg-background-dark text-[#101622] dark:text-[#101622];
   }
 }
