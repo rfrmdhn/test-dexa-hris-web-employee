@@ -32,13 +32,13 @@ const Dashboard: React.FC = () => {
         <DashboardLayout>
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-8">
                 <div className="flex flex-col gap-1">
-                    <p className="text-[#616f89] dark:text-gray-400 text-sm font-medium uppercase tracking-wider">
+                    <p className="text-subtle dark:text-gray-400 text-sm font-medium uppercase tracking-wider">
                         {dayName}, {monthDay}
                     </p>
-                    <h1 className="text-[#101622] dark:text-[#101622] text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">
+                    <h1 className="text-body dark:text-body text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">
                         {greeting}, {user?.name?.split(' ')[0] || 'there'}
                     </h1>
-                    <p className="text-[#616f89] dark:text-gray-400 text-base font-normal">
+                    <p className="text-subtle dark:text-gray-400 text-base font-normal">
                         Ready to start your day?
                     </p>
                 </div>

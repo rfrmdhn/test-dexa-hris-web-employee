@@ -9,13 +9,13 @@ interface TimeWorkedCardProps {
 
 const TimeBox: React.FC<{ value: number; label: string }> = ({ value, label }) => (
     <div className="flex grow basis-0 flex-col items-stretch gap-2">
-        <div className="flex h-12 grow items-center justify-center rounded-lg px-2 bg-[#f0f2f4] dark:bg-primary/20">
-            <p className="text-[#101622] dark:text-[#101622] text-xl font-bold tabular-nums">
+        <div className="flex h-12 grow items-center justify-center rounded-lg px-2 bg-divider dark:bg-primary/20">
+            <p className="text-body dark:text-body text-xl font-bold tabular-nums">
                 {String(value).padStart(2, '0')}
             </p>
         </div>
         <div className="text-center">
-            <p className="text-[#616f89] dark:text-gray-400 text-xs font-medium uppercase">{label}</p>
+            <p className="text-subtle dark:text-gray-400 text-xs font-medium uppercase">{label}</p>
         </div>
     </div>
 );
@@ -45,12 +45,12 @@ export const TimeWorkedCard: React.FC<TimeWorkedCardProps> = ({ checkInTime, che
     const seconds = elapsed % 60;
 
     return (
-        <div className="bg-white dark:bg-surface-dark rounded-xl p-6 shadow-sm border border-[#f0f2f4] dark:border-primary/20">
+        <div className="bg-white dark:bg-surface-dark rounded-xl p-6 shadow-sm border border-divider dark:border-primary/20">
             <div className="flex items-center gap-2 mb-4">
                 <div className="p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-primary">
                     <Icon name="timer" />
                 </div>
-                <h3 className="text-lg font-bold text-[#101622] dark:text-[#101622]">
+                <h3 className="text-lg font-bold text-body dark:text-body">
                     {checkOutTime ? 'Total Worked Time' : 'Time Worked Today'}
                 </h3>
             </div>

@@ -10,8 +10,4 @@
   --radius-xl: 0.75rem;
 }
 
-@layer base {
-  body {
-    @apply font-display antialiased bg-background-page dark:bg-background-dark text-[#101622] dark:text-[#101622];
-  }
-}
+@layer base {}

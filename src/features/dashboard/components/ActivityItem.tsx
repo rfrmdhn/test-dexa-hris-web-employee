@@ -23,13 +23,13 @@ export const ActivityItem: React.FC<ActivityItemProps> = ({ activity }) => {
                     <Icon name={isClockIn ? 'login' : 'logout'} size="sm" />
                 </div>
                 <div>
-                    <p className="text-sm font-medium text-[#101622] dark:text-[#101622]">
+                    <p className="text-sm font-medium text-body dark:text-body">
                         {isClockIn ? 'Clock In' : 'Clock Out'}
                     </p>
-                    <p className="text-xs text-[#616f89] dark:text-gray-400">{activity.date}</p>
+                    <p className="text-xs text-subtle dark:text-gray-400">{activity.date}</p>
                 </div>
             </div>
-            <span className="text-sm font-semibold text-[#101622] dark:text-[#101622] tabular-nums">
+            <span className="text-sm font-semibold text-body dark:text-body tabular-nums">
                 {activity.time}
             </span>
         </div>

@@ -13,14 +13,10 @@ export default {
                 "background-dark": "#FAFAFA",
                 "surface-light": "#ffffff",
                 "surface-dark": "#135bed",
-                text: {
-                    main: "#101622",
-                    muted: "#616f89",
-                },
-                neutral: {
-                    light: "#f0f2f4",
-                    input: "#dbdfe6",
-                },
+                body: "#101622",
+                subtle: "#616f89",
+                divider: "#f0f2f4",
+                field: "#dbdfe6",
             },
             fontFamily: {
                 display: ["Inter", "sans-serif"],
