@@ -1,12 +1,3 @@
-/**
- * Image Helper Functions
- * Utilities for image processing and conversion.
- */
-
-/**
- * Converts a data URL to a Blob.
- * Time Complexity: O(n) where n is the length of the base64 string.
- */
 export const dataURLtoBlob = (dataurl: string): Blob => {
     const arr = dataurl.split(',');
     const mime = arr[0].match(/:(.*?);/)?.[1];
@@ -21,10 +12,6 @@ export const dataURLtoBlob = (dataurl: string): Blob => {
     return new Blob([u8arr], { type: mime });
 };
 
-/**
- * Compresses an image blob to WebP format with reduced dimensions.
- * Max dimensions: 1024x1024, Quality: 0.7
- */
 export const compressImage = (blob: Blob): Promise<Blob> => {
     return new Promise((resolve, reject) => {
         const img = new Image();
@@ -43,7 +30,6 @@ export const compressImage = (blob: Blob): Promise<Blob> => {
             const MAX_SIZE = 1024;
             let { width, height } = img;
 
-            // Calculate new dimensions maintaining aspect ratio
             if (width > height && width > MAX_SIZE) {
                 height = (height * MAX_SIZE) / width;
                 width = MAX_SIZE;

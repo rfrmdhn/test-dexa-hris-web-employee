@@ -1,7 +1,3 @@
-/**
- * Atoms Barrel Export
- * Provides clean imports: import { Button, Icon } from '@/components/atoms'
- */
 export { Avatar } from './Avatar';
 export { Badge } from './Badge';
 export { Button } from './Button';

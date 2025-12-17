@@ -1,10 +1,6 @@
 import apiClient, { type ApiResponse } from './client';
 import type { User, LoginCredentials, LoginResponseData, AttendanceSubmission, AttendanceResponse } from '@/libs/types';
 
-/**
- * Consolidated API Endpoints
- * All API calls are defined here for easy maintenance and discoverability.
- */
 export const api = {
     auth: {
         login: async (credentials: LoginCredentials): Promise<LoginResponseData> => {
@@ -26,7 +22,5 @@ export const api = {
             });
             return response.data.data;
         },
-        // Add more attendance endpoints here as needed
-        // getHistory: async () => { ... },
     },
 };

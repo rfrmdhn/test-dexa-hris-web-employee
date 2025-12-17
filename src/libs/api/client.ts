@@ -1,6 +1,5 @@
 import axios, { AxiosError, type InternalAxiosRequestConfig } from 'axios';
 
-// Global Response Structure from Contract
 export interface ApiResponse<T = unknown> {
     statusCode: number;
     message: string;
@@ -15,7 +14,6 @@ const apiClient = axios.create({
     },
 });
 
-// Request Interceptor: Attach Token
 apiClient.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
         const token = localStorage.getItem('token');
@@ -27,7 +25,6 @@ apiClient.interceptors.request.use(
     (error) => Promise.reject(error)
 );
 
-// Response Interceptor
 apiClient.interceptors.response.use(
     (response) => response,
     (error: AxiosError) => {

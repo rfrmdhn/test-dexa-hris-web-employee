@@ -2,19 +2,16 @@ import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuthStore } from '@/features/auth/stores/useAuthStore';
 
-// Lazy load pages
 const Login = lazy(() => import('@/features/auth/pages/Login'));
 const Dashboard = lazy(() => import('@/features/dashboard/pages/Dashboard'));
 const Attendance = lazy(() => import('@/features/attendance/pages/Attendance'));
 
-// Loading component
 const LoadingSpinner = () => (
   <div className="flex h-screen w-full items-center justify-center bg-white dark:bg-gray-900">
     <div className="h-10 w-10 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
   </div>
 );
 
-// Protected Route Component
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   if (!isAuthenticated) {
@@ -52,4 +49,3 @@ function App() {
 }
 
 export default App;
-

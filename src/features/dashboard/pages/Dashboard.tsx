@@ -10,7 +10,6 @@ import { Button } from '@/components/atoms/Button';
 import { useDashboard } from '../hooks/useDashboard';
 import type { ActivityItemData } from '../components/ActivityItem';
 
-// Mock data - would come from API in production
 const mockActivities: ActivityItemData[] = [
     { id: '1', type: 'clock_out', date: 'Oct 21', time: '06:02 PM' },
     { id: '2', type: 'clock_in', date: 'Oct 21', time: '08:58 AM' },
@@ -31,7 +30,6 @@ const Dashboard: React.FC = () => {
 
     return (
         <DashboardLayout>
-            {/* Page Greeting */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-8">
                 <div className="flex flex-col gap-1">
                     <p className="text-[#616f89] dark:text-gray-400 text-sm font-medium uppercase tracking-wider">
@@ -56,9 +54,7 @@ const Dashboard: React.FC = () => {
                 </div>
             </div>
 
-            {/* Main Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {/* LEFT COLUMN: Main Action (2/3 width) */}
                 <div className="lg:col-span-2 flex flex-col gap-6">
                     <ClockInCard
                         isClockedIn={isClockedIn}
@@ -66,14 +62,12 @@ const Dashboard: React.FC = () => {
                         isLoading={isLoading}
                     />
 
-                    {/* Timer / Stats Row */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <TimeWorkedCard hours={0} minutes={0} seconds={0} />
                         <WeeklySummaryCard hoursWorked={38.5} targetHours={40} deltaHours={2.5} />
                     </div>
                 </div>
 
-                {/* RIGHT COLUMN: Proof & Activity (1/3 width) */}
                 <div className="flex flex-col gap-6">
                     <ProofUploadCard onFileSelect={handleFileSelect} />
                     <RecentActivityList activities={mockActivities} />

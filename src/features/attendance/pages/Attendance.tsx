@@ -14,7 +14,9 @@ const Attendance = () => {
             <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-50 dark:bg-gray-900">
                 <Card>
                     <div className="text-center py-8">
-                        <div className="text-5xl mb-4">✅</div>
+                        <div className="text-5xl mb-4 text-green-500">
+                            <span className="material-symbols-outlined" style={{ fontSize: '48px' }}>check_circle</span>
+                        </div>
                         <h2 className="text-2xl font-bold mb-2">Clock In Successful!</h2>
                         <p className="text-gray-500 mb-6">Your attendance has been recorded.</p>
                         <Button onClick={() => navigate('/')}>Back to Home</Button>

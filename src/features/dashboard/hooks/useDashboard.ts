@@ -6,7 +6,6 @@ export const useDashboard = () => {
     const [isClockedIn, setIsClockedIn] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
-    // Get current date info
     const now = new Date();
     const dayName = now.toLocaleDateString('en-US', { weekday: 'long' });
     const monthDay = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
@@ -15,7 +14,6 @@ export const useDashboard = () => {
 
     const handleClockAction = async () => {
         setIsLoading(true);
-        // Simulate API call
         await new Promise((resolve) => setTimeout(resolve, 1500));
         setIsClockedIn(!isClockedIn);
         setIsLoading(false);
@@ -23,7 +21,6 @@ export const useDashboard = () => {
 
     const handleFileSelect = (file: File) => {
         console.log('Selected file:', file.name);
-        // TODO: Upload file to API
     };
 
     return {

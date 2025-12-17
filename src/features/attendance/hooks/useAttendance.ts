@@ -33,7 +33,6 @@ export const useAttendance = () => {
             const blob = dataURLtoBlob(imgSrc);
             const compressedBlob = await compressImage(blob);
 
-            // Get location (optional but recommended)
             let lat: number | undefined;
             let lng: number | undefined;
 
@@ -45,7 +44,6 @@ export const useAttendance = () => {
                 lng = position.coords.longitude;
             } catch (e) {
                 console.warn('Geolocation failed or denied', e);
-                // Proceed without location
             }
 
             await api.attendance.checkIn({

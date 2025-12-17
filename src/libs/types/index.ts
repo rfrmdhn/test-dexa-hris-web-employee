@@ -1,8 +1,3 @@
-// ============================================
-// Shared TypeScript Types (DRY Principle)
-// ============================================
-
-// User & Auth Types
 export interface User {
     id: string;
     name: string;
@@ -20,10 +15,9 @@ export interface LoginResponseData {
     user: User;
 }
 
-// Attendance Types
 export interface AttendanceSubmission {
     image: Blob;
-    timestamp: string; // ISO string
+    timestamp: string;
     latitude?: number;
     longitude?: number;
 }
@@ -36,7 +30,6 @@ export interface AttendanceResponse {
     checkOutTime?: string | null;
 }
 
-// Activity Types
 export interface ActivityItemData {
     id: string;
     type: 'clock_in' | 'clock_out';

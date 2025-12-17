@@ -2,7 +2,6 @@ import React from 'react';
 import { Icon } from '@/components/atoms/Icon';
 import type { ActivityItemData } from '@/libs/types';
 
-// Re-export for convenience
 export type { ActivityItemData } from '@/libs/types';
 
 interface ActivityItemProps {

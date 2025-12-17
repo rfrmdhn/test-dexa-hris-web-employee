@@ -4,10 +4,6 @@ import { useAuthStore } from '../stores/useAuthStore';
 import { api } from '@/libs/api/endpoints';
 import { validateLoginForm } from '@/libs/helpers/validation';
 
-/**
- * Custom hook for handling login form state and submission.
- * Follows SRP by delegating validation to libs/helpers/validation.
- */
 export const useLogin = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -37,7 +33,6 @@ export const useLogin = () => {
             navigate('/dashboard');
         } catch (error: unknown) {
             console.error('Login failed', error);
-            // Handle backend errors (assuming standard error format)
             const axiosError = error as { response?: { data?: { message?: string } } };
             if (axiosError.response?.data?.message) {
                 setErrors({ form: axiosError.response.data.message });
