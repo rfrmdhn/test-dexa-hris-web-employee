@@ -3,6 +3,7 @@ export interface User {
     name: string;
     email: string;
     role: 'EMPLOYEE' | 'ADMIN';
+    createdAt?: string;
 }
 
 export interface LoginCredentials {
@@ -11,15 +12,12 @@ export interface LoginCredentials {
 }
 
 export interface LoginResponseData {
-    access_token: string;
+    accessToken: string;
     user: User;
 }
 
 export interface AttendanceSubmission {
-    image: Blob;
-    timestamp: string;
-    latitude?: number;
-    longitude?: number;
+    photo: Blob;
 }
 
 export interface AttendanceResponse {
@@ -28,6 +26,7 @@ export interface AttendanceResponse {
     checkInTime: string;
     photoUrl: string;
     checkOutTime?: string | null;
+    user: User;
 }
 
 export interface ActivityItemData {

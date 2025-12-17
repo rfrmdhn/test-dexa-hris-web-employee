@@ -1,14 +1,61 @@
 import { useState, useRef, useCallback } from 'react';
 import Webcam from 'react-webcam';
-import { compressImage, dataURLtoBlob } from '@/libs/helpers/image';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import type { AttendanceResponse } from '@/libs/types';
 import { api } from '@/libs/api/endpoints';
+import { format } from 'date-fns';
+import { dataURLtoBlob, compressImage } from '@/libs/helpers/image';
 
 export const useAttendance = () => {
+    const queryClient = useQueryClient();
     const webcamRef = useRef<Webcam>(null);
     const [imgSrc, setImgSrc] = useState<string | null>(null);
-    const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [success, setSuccess] = useState(false);
+
+    const today = format(new Date(), 'yyyy-MM-dd');
+
+    // Fetch today's attendance
+    const { data: attendanceHistory, isLoading: isLoadingAttendance } = useQuery({
+        queryKey: ['attendance', today],
+        queryFn: () => api.attendance.getMyAttendance({ startDate: today, endDate: today }),
+    });
+
+    const todayAttendance = attendanceHistory?.find((record: AttendanceResponse) => {
+        const recordDate = format(new Date(record.checkInTime), 'yyyy-MM-dd');
+        return recordDate === today;
+    }) || null;
+
+    const checkInMutation = useMutation({
+        mutationFn: async () => {
+            if (!imgSrc) throw new Error('No image captured');
+            const blob = dataURLtoBlob(imgSrc);
+            // Optional: Compress if needed, strict brief didn't enforce compression but it's good practice. 
+            // Existing code had it, I'll keep it for UX but it's not strictly "extra features" logic-wise.
+            const compressedBlob = await compressImage(blob);
+            return api.attendance.checkIn({ photo: compressedBlob });
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['attendance'] });
+            setImgSrc(null);
+            setError(null);
+        },
+        onError: (err: any) => {
+            console.error(err);
+            setError(err.response?.data?.message || 'Failed to check in');
+        }
+    });
+
+    const checkOutMutation = useMutation({
+        mutationFn: () => api.attendance.checkOut(),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['attendance'] });
+            setError(null);
+        },
+        onError: (err: any) => {
+            console.error(err);
+            setError(err.response?.data?.message || 'Failed to check out');
+        }
+    });
 
     const capture = useCallback(() => {
         const imageSrc = webcamRef.current?.getScreenshot();
@@ -23,53 +70,24 @@ export const useAttendance = () => {
         setError(null);
     }, []);
 
-    const submit = async () => {
-        if (!imgSrc) return;
-
-        setIsSubmitting(true);
-        setError(null);
-
-        try {
-            const blob = dataURLtoBlob(imgSrc);
-            const compressedBlob = await compressImage(blob);
-
-            let lat: number | undefined;
-            let lng: number | undefined;
-
-            try {
-                const position = await new Promise<GeolocationPosition>((resolve, reject) => {
-                    navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 5000 });
-                });
-                lat = position.coords.latitude;
-                lng = position.coords.longitude;
-            } catch (e) {
-                console.warn('Geolocation failed or denied', e);
-            }
-
-            await api.attendance.checkIn({
-                image: compressedBlob,
-                timestamp: new Date().toISOString(),
-                latitude: lat,
-                longitude: lng
-            });
-
-            setSuccess(true);
-        } catch (err: unknown) {
-            console.error('Submission failed', err);
-            setError('Failed to submit attendance. Please try again.');
-        } finally {
-            setIsSubmitting(false);
-        }
-    };
-
     return {
+        // Webcam Refs & State
         webcamRef,
         imgSrc,
         capture,
         retake,
-        submit,
-        isSubmitting,
-        error,
-        success
+
+        // Data
+        todayAttendance,
+        isLoading: isLoadingAttendance,
+
+        // Actions
+        checkIn: checkInMutation.mutate,
+        isCheckingIn: checkInMutation.isPending,
+        checkOut: checkOutMutation.mutate,
+        isCheckingOut: checkOutMutation.isPending,
+
+        // Status
+        error: error || (checkInMutation.error as any)?.message || (checkOutMutation.error as any)?.message,
     };
 };

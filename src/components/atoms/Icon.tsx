@@ -1,6 +1,8 @@
 import React from 'react';
 import clsx from 'clsx';
 
+import { twMerge } from 'tailwind-merge';
+
 interface IconProps {
     name: string;
     size?: 'sm' | 'md' | 'lg' | 'xl';
@@ -23,10 +25,12 @@ export const Icon: React.FC<IconProps> = ({
 }) => {
     return (
         <span
-            className={clsx(
-                'material-symbols-outlined select-none',
-                sizeMap[size],
-                className
+            className={twMerge(
+                clsx(
+                    'material-symbols-outlined select-none',
+                    sizeMap[size],
+                    className
+                )
             )}
             style={{ fontVariationSettings: filled ? "'FILL' 1" : "'FILL' 0" }}
         >

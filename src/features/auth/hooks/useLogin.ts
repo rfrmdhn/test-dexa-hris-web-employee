@@ -29,7 +29,7 @@ export const useLogin = () => {
 
         try {
             const response = await api.auth.login({ email, password });
-            login(response.access_token, response.user);
+            login(response.accessToken, response.user);
             navigate('/dashboard');
         } catch (error: unknown) {
             console.error('Login failed', error);

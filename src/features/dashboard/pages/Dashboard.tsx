@@ -63,7 +63,7 @@ const Dashboard: React.FC = () => {
                     />
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <TimeWorkedCard hours={0} minutes={0} seconds={0} />
+                        <TimeWorkedCard checkInTime={new Date().toISOString()} />
                         <WeeklySummaryCard hoursWorked={38.5} targetHours={40} deltaHours={2.5} />
                     </div>
                 </div>

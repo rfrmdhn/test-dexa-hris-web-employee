@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Icon } from '@/components/atoms/Icon';
+import { differenceInSeconds, parseISO } from 'date-fns';
 
 interface TimeWorkedCardProps {
-    hours: number;
-    minutes: number;
-    seconds: number;
+    checkInTime: string;
+    checkOutTime?: string | null;
 }
 
 const TimeBox: React.FC<{ value: number; label: string }> = ({ value, label }) => (
@@ -20,14 +20,39 @@ const TimeBox: React.FC<{ value: number; label: string }> = ({ value, label }) =
     </div>
 );
 
-export const TimeWorkedCard: React.FC<TimeWorkedCardProps> = ({ hours, minutes, seconds }) => {
+export const TimeWorkedCard: React.FC<TimeWorkedCardProps> = ({ checkInTime, checkOutTime }) => {
+    const [elapsed, setElapsed] = useState(0);
+
+    useEffect(() => {
+        const start = parseISO(checkInTime);
+
+        const calculateElapsed = () => {
+            const end = checkOutTime ? parseISO(checkOutTime) : new Date();
+            const diff = differenceInSeconds(end, start);
+            setElapsed(diff > 0 ? diff : 0);
+        };
+
+        calculateElapsed();
+
+        if (!checkOutTime) {
+            const interval = setInterval(calculateElapsed, 1000);
+            return () => clearInterval(interval);
+        }
+    }, [checkInTime, checkOutTime]);
+
+    const hours = Math.floor(elapsed / 3600);
+    const minutes = Math.floor((elapsed % 3600) / 60);
+    const seconds = elapsed % 60;
+
     return (
         <div className="bg-white dark:bg-surface-dark rounded-xl p-6 shadow-sm border border-[#f0f2f4] dark:border-[#2a3441]">
             <div className="flex items-center gap-2 mb-4">
                 <div className="p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-primary">
                     <Icon name="timer" />
                 </div>
-                <h3 className="text-lg font-bold text-[#111318] dark:text-white">Time Worked Today</h3>
+                <h3 className="text-lg font-bold text-[#111318] dark:text-white">
+                    {checkOutTime ? 'Total Worked Time' : 'Time Worked Today'}
+                </h3>
             </div>
             <div className="flex gap-3">
                 <TimeBox value={hours} label="Hrs" />

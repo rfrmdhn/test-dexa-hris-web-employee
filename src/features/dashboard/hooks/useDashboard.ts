@@ -1,35 +1,65 @@
-import { useState } from 'react';
-import { useAuthStore } from '@/features/auth/stores/useAuthStore';
+import { useState, useEffect } from 'react';
+import { useAuthStore } from '../../auth/stores/useAuthStore';
+import { useNavigate } from 'react-router-dom';
+import { format } from 'date-fns';
+import { api } from '@/libs/api/endpoints';
+import { useQuery } from '@tanstack/react-query';
 
 export const useDashboard = () => {
-    const user = useAuthStore((state) => state.user);
-    const [isClockedIn, setIsClockedIn] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+    const { user: storedUser, isAuthenticated } = useAuthStore();
+    const navigate = useNavigate();
+    const [currentTime, setCurrentTime] = useState(new Date());
 
-    const now = new Date();
-    const dayName = now.toLocaleDateString('en-US', { weekday: 'long' });
-    const monthDay = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
-    const hour = now.getHours();
-    const greeting = hour < 12 ? 'Good Morning' : hour < 18 ? 'Good Afternoon' : 'Good Evening';
+    useEffect(() => {
+        if (!isAuthenticated) {
+            navigate('/login');
+        }
+    }, [isAuthenticated, navigate]);
 
-    const handleClockAction = async () => {
-        setIsLoading(true);
-        await new Promise((resolve) => setTimeout(resolve, 1500));
-        setIsClockedIn(!isClockedIn);
-        setIsLoading(false);
+    useEffect(() => {
+        const timer = setInterval(() => setCurrentTime(new Date()), 1000); // 1-minute update ample for greeting
+        return () => clearInterval(timer);
+    }, []);
+
+    // Fetch latest profile to ensure data consistency
+    const { data: profile } = useQuery({
+        queryKey: ['profile'],
+        queryFn: async () => {
+            const data = await api.employees.getProfile();
+            // Optimize: Update store if data changed, or just use this data for UI
+            // For now, simpler to just return data.
+            return data;
+        },
+        enabled: isAuthenticated
+    });
+
+    // Use profile from API if available, else stored user
+    const currentUser = profile || storedUser;
+
+    const getGreeting = () => {
+        const hour = currentTime.getHours();
+        if (hour < 12) return 'Good Morning';
+        if (hour < 18) return 'Good Afternoon';
+        return 'Good Evening';
+    };
+
+    const isClockedIn = false; // logic moved to Attendance module, this is just a placeholder or could be removed if unused
+
+    const handleClockAction = () => {
+        console.log('Clock action triggered');
     };
 
     const handleFileSelect = (file: File) => {
-        console.log('Selected file:', file.name);
+        console.log('File selected:', file);
     };
 
     return {
-        user,
+        user: currentUser,
         isClockedIn,
-        isLoading,
-        dayName,
-        monthDay,
-        greeting,
+        isLoading: false,
+        dayName: format(currentTime, 'EEEE'),
+        monthDay: format(currentTime, 'MMMM d'),
+        greeting: getGreeting(),
         handleClockAction,
         handleFileSelect
     };
