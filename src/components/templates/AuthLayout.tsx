@@ -19,7 +19,7 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
                 {children}
             </div>
             <div className="py-6 text-center">
-                <p className="text-sm text-gray-400 dark:text-gray-600">© 2023 WorkPortal Inc. All rights reserved.</p>
+
             </div>
         </div>
     );
