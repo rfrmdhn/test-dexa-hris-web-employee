@@ -1,4 +1,5 @@
 import axios, { AxiosError, type InternalAxiosRequestConfig } from 'axios';
+import { useAuthStore } from '@/features/auth/stores/useAuthStore';
 
 export interface ApiResponse<T = unknown> {
     statusCode: number;
@@ -29,8 +30,9 @@ apiClient.interceptors.response.use(
     (response) => response,
     (error: AxiosError) => {
         if (error.response && error.response.status === 401) {
-            localStorage.removeItem('token');
-            localStorage.removeItem('user');
+            console.warn('Unauthorized access detected. Logging out...', error.config?.url);
+            // Use the store's logout action to ensure state is synchronized
+            useAuthStore.getState().logout();
         }
         return Promise.reject(error);
     }
