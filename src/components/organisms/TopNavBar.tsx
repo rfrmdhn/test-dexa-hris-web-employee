@@ -4,12 +4,7 @@ import { Icon } from '@/components/atoms/Icon';
 import { Avatar } from '@/components/atoms/Avatar';
 import { useAuthStore } from '@/features/auth/stores/useAuthStore';
 
-const navLinks = [
-    { label: 'Dashboard', path: '/dashboard' },
-    { label: 'Timesheets', path: '/timesheets' },
-    { label: 'Requests', path: '/requests' },
-    { label: 'Profile', path: '/profile' },
-];
+const navLinks: { label: string; path: string }[] = [];
 
 export const TopNavBar: React.FC = () => {
     const location = useLocation();
@@ -48,10 +43,6 @@ export const TopNavBar: React.FC = () => {
 
             {/* Right side: Notifications & Profile */}
             <div className="flex items-center gap-4">
-                <button className="p-2 text-subtle dark:text-gray-400 hover:text-primary dark:hover:text-white transition-colors">
-                    <Icon name="notifications" />
-                </button>
-                <div className="h-8 w-px bg-divider dark:bg-primary/20 hidden sm:block" />
                 <div className="flex items-center gap-3">
                     <div className="hidden sm:block text-right">
                         <p className="text-sm font-bold leading-none dark:text-body">{user?.name || 'User'}</p>
