@@ -8,14 +8,14 @@ interface RecentActivityListProps {
 
 export const RecentActivityList: React.FC<RecentActivityListProps> = ({ activities }) => {
     return (
-        <div className="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-[#f0f2f4] dark:border-[#2a3441] overflow-hidden flex-1">
-            <div className="p-4 border-b border-[#f0f2f4] dark:border-[#2a3441] flex justify-between items-center">
-                <h3 className="text-base font-bold text-[#111318] dark:text-white">Recent Activity</h3>
+        <div className="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-[#f0f2f4] dark:border-primary/20 overflow-hidden flex-1">
+            <div className="p-4 border-b border-[#f0f2f4] dark:border-primary/20 flex justify-between items-center">
+                <h3 className="text-base font-bold text-[#101622] dark:text-[#101622]">Recent Activity</h3>
                 <a href="#" className="text-xs text-primary font-medium hover:underline">
                     View All
                 </a>
             </div>
-            <div className="divide-y divide-[#f0f2f4] dark:divide-[#2a3441]">
+            <div className="divide-y divide-[#f0f2f4] dark:divide-primary/20">
                 {activities.length > 0 ? (
                     activities.map((activity) => (
                         <ActivityItem key={activity.id} activity={activity} />

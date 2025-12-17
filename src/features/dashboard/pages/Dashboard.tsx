@@ -35,7 +35,7 @@ const Dashboard: React.FC = () => {
                     <p className="text-[#616f89] dark:text-gray-400 text-sm font-medium uppercase tracking-wider">
                         {dayName}, {monthDay}
                     </p>
-                    <h1 className="text-[#111318] dark:text-white text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">
+                    <h1 className="text-[#101622] dark:text-[#101622] text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">
                         {greeting}, {user?.name?.split(' ')[0] || 'there'}
                     </h1>
                     <p className="text-[#616f89] dark:text-gray-400 text-base font-normal">

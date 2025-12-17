@@ -16,13 +16,13 @@ export const TopNavBar: React.FC = () => {
     const user = useAuthStore((state) => state.user);
 
     return (
-        <header className="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-[#f0f2f4] dark:border-[#2a3441] px-4 md:px-6 py-3 bg-white dark:bg-surface-dark shadow-sm">
+        <header className="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-[#f0f2f4] dark:border-primary/20 px-4 md:px-6 py-3 bg-white dark:bg-surface-dark shadow-sm">
             {/* Logo */}
-            <div className="flex items-center gap-4 text-[#111318] dark:text-white">
+            <div className="flex items-center gap-4 text-[#101622] dark:text-[#101622]">
                 <div className="size-8 flex items-center justify-center text-primary">
                     <Icon name="grid_view" size="xl" />
                 </div>
-                <h2 className="text-[#111318] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">
+                <h2 className="text-[#101622] dark:text-[#101622] text-lg font-bold leading-tight tracking-[-0.015em]">
                     WorkSpace
                 </h2>
             </div>
@@ -51,10 +51,10 @@ export const TopNavBar: React.FC = () => {
                 <button className="p-2 text-[#616f89] dark:text-gray-400 hover:text-primary dark:hover:text-white transition-colors">
                     <Icon name="notifications" />
                 </button>
-                <div className="h-8 w-px bg-[#f0f2f4] dark:bg-[#2a3441] hidden sm:block" />
+                <div className="h-8 w-px bg-[#f0f2f4] dark:bg-primary/20 hidden sm:block" />
                 <div className="flex items-center gap-3">
                     <div className="hidden sm:block text-right">
-                        <p className="text-sm font-bold leading-none dark:text-white">{user?.name || 'User'}</p>
+                        <p className="text-sm font-bold leading-none dark:text-[#101622]">{user?.name || 'User'}</p>
                         <p className="text-xs text-[#616f89] dark:text-gray-400 leading-none mt-1">Employee</p>
                     </div>
                     <Avatar

@@ -12,7 +12,7 @@ export const ActivityItem: React.FC<ActivityItemProps> = ({ activity }) => {
     const isClockIn = activity.type === 'clock_in';
 
     return (
-        <div className="flex items-center justify-between p-4 hover:bg-gray-50 dark:hover:bg-[#20293a] transition-colors">
+        <div className="flex items-center justify-between p-4 hover:bg-gray-50 dark:hover:bg-primary/10 transition-colors">
             <div className="flex items-center gap-3">
                 <div
                     className={`size-8 rounded-full flex items-center justify-center ${isClockIn
@@ -23,13 +23,13 @@ export const ActivityItem: React.FC<ActivityItemProps> = ({ activity }) => {
                     <Icon name={isClockIn ? 'login' : 'logout'} size="sm" />
                 </div>
                 <div>
-                    <p className="text-sm font-medium text-[#111318] dark:text-white">
+                    <p className="text-sm font-medium text-[#101622] dark:text-[#101622]">
                         {isClockIn ? 'Clock In' : 'Clock Out'}
                     </p>
                     <p className="text-xs text-[#616f89] dark:text-gray-400">{activity.date}</p>
                 </div>
             </div>
-            <span className="text-sm font-semibold text-[#111318] dark:text-white tabular-nums">
+            <span className="text-sm font-semibold text-[#101622] dark:text-[#101622] tabular-nums">
                 {activity.time}
             </span>
         </div>

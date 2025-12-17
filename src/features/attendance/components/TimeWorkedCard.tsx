@@ -9,8 +9,8 @@ interface TimeWorkedCardProps {
 
 const TimeBox: React.FC<{ value: number; label: string }> = ({ value, label }) => (
     <div className="flex grow basis-0 flex-col items-stretch gap-2">
-        <div className="flex h-12 grow items-center justify-center rounded-lg px-2 bg-[#f0f2f4] dark:bg-[#2a3441]">
-            <p className="text-[#111318] dark:text-white text-xl font-bold tabular-nums">
+        <div className="flex h-12 grow items-center justify-center rounded-lg px-2 bg-[#f0f2f4] dark:bg-primary/20">
+            <p className="text-[#101622] dark:text-[#101622] text-xl font-bold tabular-nums">
                 {String(value).padStart(2, '0')}
             </p>
         </div>
@@ -45,12 +45,12 @@ export const TimeWorkedCard: React.FC<TimeWorkedCardProps> = ({ checkInTime, che
     const seconds = elapsed % 60;
 
     return (
-        <div className="bg-white dark:bg-surface-dark rounded-xl p-6 shadow-sm border border-[#f0f2f4] dark:border-[#2a3441]">
+        <div className="bg-white dark:bg-surface-dark rounded-xl p-6 shadow-sm border border-[#f0f2f4] dark:border-primary/20">
             <div className="flex items-center gap-2 mb-4">
                 <div className="p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-primary">
                     <Icon name="timer" />
                 </div>
-                <h3 className="text-lg font-bold text-[#111318] dark:text-white">
+                <h3 className="text-lg font-bold text-[#101622] dark:text-[#101622]">
                     {checkOutTime ? 'Total Worked Time' : 'Time Worked Today'}
                 </h3>
             </div>
