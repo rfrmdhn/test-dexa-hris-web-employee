@@ -10,7 +10,7 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
     children,
 }) => {
     return (
-        <div className="flex flex-col flex-1 w-full h-full overflow-y-auto font-display antialiased bg-white dark:bg-background-dark text-body dark:text-body h-screen overflow-hidden">
+        <div className="flex flex-col flex-1 w-full h-full overflow-y-auto font-display antialiased bg-background-light dark:bg-background-dark text-body dark:text-body h-screen overflow-hidden">
             <div className="w-full flex justify-center pt-8 pb-4">
                 <Logo />
             </div>

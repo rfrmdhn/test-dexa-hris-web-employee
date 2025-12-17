@@ -11,12 +11,12 @@ const Login: React.FC = () => {
 
     return (
         <AuthLayout>
-            <Card className="w-full max-w-md mx-auto shadow-none border-none bg-transparent space-y-8">
+            <Card className="w-full max-w-md mx-auto space-y-8">
                 <div className="text-center space-y-2">
                     <h1 className="text-3xl font-bold leading-tight tracking-tight text-body dark:text-body">
                         Employee Login
                     </h1>
-                    <p className="text-base font-normal text-gray-500 dark:text-gray-500">
+                    <p className="text-base font-normal text-subtle dark:text-subtle">
                         Please sign in to manage your shifts and documents.
                     </p>
                 </div>
