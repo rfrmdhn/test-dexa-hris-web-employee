@@ -1,0 +1,31 @@
+import React from 'react';
+import { ActivityItem } from '../molecules/ActivityItem';
+import type { ActivityItemData } from '../molecules/ActivityItem';
+
+interface RecentActivityListProps {
+    activities: ActivityItemData[];
+}
+
+export const RecentActivityList: React.FC<RecentActivityListProps> = ({ activities }) => {
+    return (
+        <div className="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-[#f0f2f4] dark:border-[#2a3441] overflow-hidden flex-1">
+            <div className="p-4 border-b border-[#f0f2f4] dark:border-[#2a3441] flex justify-between items-center">
+                <h3 className="text-base font-bold text-[#111318] dark:text-white">Recent Activity</h3>
+                <a href="#" className="text-xs text-primary font-medium hover:underline">
+                    View All
+                </a>
+            </div>
+            <div className="divide-y divide-[#f0f2f4] dark:divide-[#2a3441]">
+                {activities.length > 0 ? (
+                    activities.map((activity) => (
+                        <ActivityItem key={activity.id} activity={activity} />
+                    ))
+                ) : (
+                    <div className="p-6 text-center text-[#616f89] dark:text-gray-400 text-sm">
+                        No recent activity
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+};
