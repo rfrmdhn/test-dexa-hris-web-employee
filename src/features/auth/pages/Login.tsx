@@ -4,7 +4,7 @@ import { AuthLayout } from '@/components/templates/AuthLayout';
 import { Card } from '@/components/atoms/Card';
 import { LoginForm } from '../components/LoginForm';
 
-import { SupportContact } from '@/components/molecules/SupportContact';
+
 
 const Login: React.FC = () => {
     useAuthRedirect();
@@ -22,8 +22,6 @@ const Login: React.FC = () => {
                 </div>
 
                 <LoginForm />
-
-                <SupportContact />
             </Card>
         </AuthLayout>
     );
