@@ -46,7 +46,7 @@ export const useDashboard = () => {
     const isClockedIn = false; // logic moved to Attendance module, this is just a placeholder or could be removed if unused
 
     const handleClockAction = () => {
-        console.log('Clock action triggered');
+        navigate('/attendance');
     };
 
     const handleFileSelect = (file: File) => {

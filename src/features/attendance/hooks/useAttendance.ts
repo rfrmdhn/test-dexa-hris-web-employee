@@ -34,7 +34,10 @@ export const useAttendance = () => {
             const compressedBlob = await compressImage(blob);
             return api.attendance.checkIn({ photo: compressedBlob });
         },
-        onSuccess: () => {
+        onSuccess: (newRecord) => {
+            queryClient.setQueryData(['attendance', today], (oldData: AttendanceResponse[] | undefined) => {
+                return oldData ? [...oldData, newRecord] : [newRecord];
+            });
             queryClient.invalidateQueries({ queryKey: ['attendance'] });
             setImgSrc(null);
             setError(null);
