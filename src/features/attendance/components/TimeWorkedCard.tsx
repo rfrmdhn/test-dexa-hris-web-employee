@@ -3,7 +3,7 @@ import { Icon } from '@/components/atoms/Icon';
 import { differenceInSeconds, parseISO } from 'date-fns';
 
 interface TimeWorkedCardProps {
-    checkInTime: string;
+    checkInTime: string | null;
     checkOutTime?: string | null;
 }
 
@@ -24,6 +24,8 @@ export const TimeWorkedCard: React.FC<TimeWorkedCardProps> = ({ checkInTime, che
     const [elapsed, setElapsed] = useState(0);
 
     useEffect(() => {
+        if (!checkInTime) return;
+
         const start = parseISO(checkInTime);
 
         const calculateElapsed = () => {

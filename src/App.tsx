@@ -5,6 +5,7 @@ import { useAuthStore } from '@/features/auth/stores/useAuthStore';
 const Login = lazy(() => import('@/features/auth/pages/Login'));
 const Dashboard = lazy(() => import('@/features/dashboard/pages/Dashboard'));
 const Attendance = lazy(() => import('@/features/attendance/pages/Attendance'));
+const History = lazy(() => import('@/features/attendance/pages/History'));
 
 const LoadingSpinner = () => (
   <div className="flex h-screen w-full items-center justify-center bg-white dark:bg-background-dark">
@@ -42,9 +43,17 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/history"
+            element={
+              <ProtectedRoute>
+                <History />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </Suspense>
-    </Router>
+    </Router >
   );
 }
 

@@ -1,11 +1,11 @@
 import { authClient, attendanceClient, type ApiResponse } from './client';
-import type { User, LoginCredentials, LoginResponseData, AttendanceSubmission, AttendanceResponse, AttendanceStatusResponse } from '@/libs/types';
+import type { User, LoginCredentials, LoginResponseData, AttendanceSubmission, AttendanceResponse, AttendanceStatusResponse, PaginatedResponse } from '@/libs/types';
 
 export const api = {
     auth: {
         login: async (credentials: LoginCredentials): Promise<LoginResponseData> => {
-            const response = await authClient.post<ApiResponse<LoginResponseData>>('/auth/login', credentials);
-            return response.data.data;
+            const response = await authClient.post<LoginResponseData>('/auth/login', credentials);
+            return response.data;
         },
         register: async (data: Omit<User, 'id'> & { password: string }): Promise<User> => {
             const response = await authClient.post<ApiResponse<User>>('/auth/register', data);
@@ -26,17 +26,15 @@ export const api = {
             });
             return response.data.data;
         },
-        checkOut: async (data: AttendanceSubmission): Promise<AttendanceResponse> => {
-            const formData = new FormData();
-            formData.append('photo', data.photo, 'attendance.webp');
-
-            const response = await attendanceClient.post<ApiResponse<AttendanceResponse>>('/attendance/check-out', formData, {
-                headers: { 'Content-Type': 'multipart/form-data' },
-            });
+        checkOut: async (): Promise<AttendanceResponse> => {
+            const response = await attendanceClient.post<ApiResponse<AttendanceResponse>>('/attendance/check-out');
             return response.data.data;
         },
-        getMyAttendance: async (params?: { startDate?: string; endDate?: string }): Promise<AttendanceResponse[]> => {
-            const response = await attendanceClient.get<ApiResponse<AttendanceResponse[]>>('/attendance/my', { params });
+        getMyAttendance: async (params?: { startDate?: string; endDate?: string; limit?: number; page?: number }): Promise<PaginatedResponse<AttendanceResponse>> => {
+            // Note: API returns { data: [...], meta: ... } directly in 'data' field of ApiResponse? 
+            // The Contract says Response (200 OK): { data: [...], meta: ... }
+            // Our client assumes ApiResponse<T> where T is that object.
+            const response = await attendanceClient.get<ApiResponse<PaginatedResponse<AttendanceResponse>>>('/attendance/my', { params });
             return response.data.data;
         },
     },

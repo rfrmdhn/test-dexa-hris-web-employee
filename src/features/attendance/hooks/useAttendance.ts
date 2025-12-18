@@ -27,7 +27,13 @@ export const useAttendance = () => {
         queryFn: () => api.attendance.getStatus(),
     });
 
-    const todayAttendance = attendanceStatus?.currentAttendance || null;
+    // Map backend response to UI-friendly shape
+    const currentAttendance = attendanceStatus?.currentAttendance;
+    const todayAttendance = currentAttendance ? {
+        checkInTime: currentAttendance.checkInTime,
+        checkOutTime: currentAttendance.checkOutTime,
+        isCheckedIn: attendanceStatus?.status === 'CHECKED_IN'
+    } : null;
 
     const handleMutationSuccess = () => {
         queryClient.invalidateQueries({ queryKey: ['attendance-status'] });
@@ -49,10 +55,7 @@ export const useAttendance = () => {
     });
 
     const checkOutMutation = useMutation({
-        mutationFn: async () => {
-            const photo = await preparePhotoBlob(file, imgSrc);
-            return api.attendance.checkOut({ photo });
-        },
+        mutationFn: () => api.attendance.checkOut(),
         onSuccess: handleMutationSuccess,
         onError: (err: any) => {
             console.error(err);
