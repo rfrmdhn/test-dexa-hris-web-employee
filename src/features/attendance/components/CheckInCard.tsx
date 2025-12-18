@@ -15,6 +15,7 @@ interface CheckInCardProps {
     submit: () => void;
     isSubmitting: boolean;
     error: string | null;
+    actionType?: 'clock-in' | 'clock-out';
 }
 
 export const CheckInCard: React.FC<CheckInCardProps> = ({
@@ -27,8 +28,11 @@ export const CheckInCard: React.FC<CheckInCardProps> = ({
     submit,
     isSubmitting,
     error,
+    actionType = 'clock-in',
 }) => {
     const [mode, setMode] = React.useState<'camera' | 'upload'>('camera');
+
+    const isClockOut = actionType === 'clock-out';
 
     // Auto-switch to camera on mount or if file is removed
     React.useEffect(() => {
@@ -37,7 +41,9 @@ export const CheckInCard: React.FC<CheckInCardProps> = ({
 
     return (
         <div className="flex flex-col items-center pt-10 px-4 max-w-md mx-auto w-full">
-            <h1 className="text-2xl font-bold mb-6 text-gray-800">Attendance Clock In</h1>
+            <h1 className="text-2xl font-bold mb-6 text-gray-800">
+                {isClockOut ? 'Attendance Clock Out' : 'Attendance Clock In'}
+            </h1>
 
             <div className="mb-6">
                 <DigitalClock />
@@ -134,8 +140,8 @@ export const CheckInCard: React.FC<CheckInCardProps> = ({
                         }} disabled={isSubmitting}>
                             {mode === 'camera' ? 'Retake' : 'Change File'}
                         </Button>
-                        <Button fullWidth onClick={submit} disabled={isSubmitting}>
-                            {isSubmitting ? 'Submitting...' : 'Confirm Clock In'}
+                        <Button fullWidth onClick={submit} disabled={isSubmitting} variant={isClockOut ? 'danger' : 'primary'}>
+                            {isSubmitting ? 'Submitting...' : isClockOut ? 'Confirm Clock Out' : 'Confirm Clock In'}
                         </Button>
                     </>
                 )}

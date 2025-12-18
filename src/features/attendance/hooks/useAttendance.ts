@@ -1,9 +1,7 @@
 import { useState, useRef, useCallback } from 'react';
 import Webcam from 'react-webcam';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import type { AttendanceResponse } from '@/libs/types';
 import { api } from '@/libs/api/endpoints';
-import { format } from 'date-fns';
 import { dataURLtoBlob, compressImage } from '@/libs/helpers/image';
 
 export const useAttendance = () => {
@@ -15,18 +13,14 @@ export const useAttendance = () => {
     const [isSuccess, setIsSuccess] = useState(false);
     const [successImage, setSuccessImage] = useState<string | null>(null);
 
-    const today = format(new Date(), 'yyyy-MM-dd');
-
-    // Fetch today's attendance
-    const { data: attendanceHistory, isLoading: isLoadingAttendance } = useQuery({
-        queryKey: ['attendance', today],
-        queryFn: () => api.attendance.getMyAttendance({ startDate: today, endDate: today }),
+    // Fetch attendance status using the /attendance/status endpoint
+    const { data: attendanceStatus, isLoading: isLoadingStatus } = useQuery({
+        queryKey: ['attendance-status'],
+        queryFn: () => api.attendance.getStatus(),
     });
 
-    const todayAttendance = attendanceHistory?.find((record: AttendanceResponse) => {
-        const recordDate = format(new Date(record.checkInTime), 'yyyy-MM-dd');
-        return recordDate === today;
-    }) || null;
+    // todayAttendance is derived from the status API response
+    const todayAttendance = attendanceStatus?.currentAttendance || null;
 
     const checkInMutation = useMutation({
         mutationFn: async () => {
@@ -42,12 +36,11 @@ export const useAttendance = () => {
                 throw new Error('No proof of work provided');
             }
         },
-        onSuccess: (newRecord) => {
+        onSuccess: () => {
             // Do NOT invalidate queries immediately if we want to show the success state independently of the "todayAttendance" check logic
             // or we can invalidate but rely on local isSuccess state for the UI
-            queryClient.setQueryData(['attendance', today], (oldData: AttendanceResponse[] | undefined) => {
-                return oldData ? [...oldData, newRecord] : [newRecord];
-            });
+            // Invalidate the attendance-status query to refetch after check-in
+            queryClient.invalidateQueries({ queryKey: ['attendance-status'] });
             // queryClient.invalidateQueries({ queryKey: ['attendance'] }); // Defer invalidation or let it happen
 
             setSuccessImage(imgSrc || (file ? URL.createObjectURL(file) : null));
@@ -61,9 +54,23 @@ export const useAttendance = () => {
     });
 
     const checkOutMutation = useMutation({
-        mutationFn: () => api.attendance.checkOut(),
+        mutationFn: async () => {
+            if (file) {
+                // File upload mode
+                return api.attendance.checkOut({ photo: file });
+            } else if (imgSrc) {
+                // Webcam mode
+                const blob = dataURLtoBlob(imgSrc);
+                const compressedBlob = await compressImage(blob);
+                return api.attendance.checkOut({ photo: compressedBlob });
+            } else {
+                throw new Error('No proof of work provided');
+            }
+        },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['attendance'] });
+            queryClient.invalidateQueries({ queryKey: ['attendance-status'] });
+            setSuccessImage(imgSrc || (file ? URL.createObjectURL(file) : null));
+            setIsSuccess(true);
             setError(null);
         },
         onError: (err: any) => {
@@ -112,7 +119,7 @@ export const useAttendance = () => {
 
         // Data
         todayAttendance,
-        isLoading: isLoadingAttendance,
+        isLoading: isLoadingStatus,
 
         // Actions
         checkIn: checkInMutation.mutate,

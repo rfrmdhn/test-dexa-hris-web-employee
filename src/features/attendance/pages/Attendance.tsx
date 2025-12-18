@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useAttendance } from '../hooks/useAttendance';
 import { CheckInCard } from '../components/CheckInCard';
-import { CheckOutCard } from '../components/CheckOutCard';
 import { TimeWorkedCard } from '../components/TimeWorkedCard';
 import { SuccessDialog } from '../components/SuccessDialog';
 import { Button } from '@/components/atoms/Button';
@@ -66,30 +65,21 @@ const Attendance = () => {
         );
     }
 
-    // STATE: Working (Checked In, Not Checked Out)
+    // STATE: Working (Checked In, Not Checked Out) - Use same UI as clock-in
     if (todayAttendance?.checkInTime) {
         return (
-            <div className="flex flex-col items-center pt-10 px-4 max-w-md mx-auto w-full gap-4">
-                <h1 className="text-2xl font-bold mb-2 text-gray-800 dark:text-gray-100">Current Status</h1>
-
-                <div className="w-full">
-                    <TimeWorkedCard
-                        checkInTime={todayAttendance.checkInTime}
-                    />
-                </div>
-
-                <div className="w-full">
-                    <CheckOutCard
-                        onCheckOut={() => checkOut()}
-                        isCheckingOut={isCheckingOut}
-                    />
-                    {error && (
-                        <div className="mt-4 text-red-500 bg-red-50 p-3 rounded-lg w-full text-center text-sm">
-                            {error}
-                        </div>
-                    )}
-                </div>
-            </div>
+            <CheckInCard
+                webcamRef={webcamRef}
+                imgSrc={imgSrc}
+                file={file}
+                capture={capture}
+                retake={retake}
+                handleFileSelect={handleFileSelect}
+                submit={() => checkOut()}
+                isSubmitting={isCheckingOut}
+                error={error}
+                actionType="clock-out"
+            />
         );
     }
 

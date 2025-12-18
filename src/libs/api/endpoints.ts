@@ -26,8 +26,13 @@ export const api = {
             });
             return response.data.data;
         },
-        checkOut: async (): Promise<AttendanceResponse> => {
-            const response = await apiClient.post<ApiResponse<AttendanceResponse>>('/attendance/check-out', {});
+        checkOut: async (data: AttendanceSubmission): Promise<AttendanceResponse> => {
+            const formData = new FormData();
+            formData.append('photo', data.photo, 'attendance.webp');
+
+            const response = await apiClient.post<ApiResponse<AttendanceResponse>>('/attendance/check-out', formData, {
+                headers: { 'Content-Type': 'multipart/form-data' },
+            });
             return response.data.data;
         },
         getMyAttendance: async (params?: { startDate?: string; endDate?: string }): Promise<AttendanceResponse[]> => {
