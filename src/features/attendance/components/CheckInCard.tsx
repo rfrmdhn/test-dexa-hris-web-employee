@@ -37,7 +37,7 @@ export const CheckInCard: React.FC<CheckInCardProps> = ({
 
     return (
         <div className="flex flex-col items-center pt-10 px-4 max-w-md mx-auto w-full">
-            <h1 className="text-2xl font-bold mb-6 text-gray-800 dark:text-gray-100">Attendance Clock In</h1>
+            <h1 className="text-2xl font-bold mb-6 text-gray-800">Attendance Clock In</h1>
 
             <div className="mb-6">
                 <DigitalClock />

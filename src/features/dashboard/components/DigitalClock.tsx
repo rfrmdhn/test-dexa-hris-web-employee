@@ -12,7 +12,7 @@ export const DigitalClock: React.FC = () => {
     }, []);
 
     return (
-        <div className="text-4xl font-mono font-bold text-gray-800 dark:text-white tracking-wider">
+        <div className="text-4xl font-mono font-bold text-gray-800 tracking-wider">
             {time.toLocaleTimeString([], { hour12: false })}
         </div>
     );

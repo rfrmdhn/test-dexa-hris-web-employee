@@ -1,7 +1,6 @@
 import React from 'react';
 import { DashboardLayout } from '@/components/templates/DashboardLayout';
 import { ClockInCard } from '@/features/attendance/components/ClockInCard';
-import { ProofUploadCard } from '@/features/attendance/components/ProofUploadCard';
 import { Icon } from '@/components/atoms/Icon';
 import { Button } from '@/components/atoms/Button';
 import { useDashboard } from '../hooks/useDashboard';
@@ -15,8 +14,7 @@ const Dashboard: React.FC = () => {
         dayName,
         monthDay,
         greeting,
-        handleClockAction,
-        handleFileSelect
+        handleClockAction
     } = useDashboard();
 
     return (
@@ -46,16 +44,12 @@ const Dashboard: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div className="lg:col-span-2 flex flex-col gap-6">
+                <div className="lg:col-span-3 flex flex-col gap-6">
                     <ClockInCard
                         isClockedIn={isClockedIn}
                         onClockAction={handleClockAction}
                         isLoading={isLoading}
                     />
-                </div>
-
-                <div className="flex flex-col gap-6">
-                    <ProofUploadCard onFileSelect={handleFileSelect} />
                 </div>
             </div>
         </DashboardLayout>
