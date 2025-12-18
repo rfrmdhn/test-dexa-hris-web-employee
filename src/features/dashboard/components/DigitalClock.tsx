@@ -1,19 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useClock } from '@/features/dashboard/hooks/useClock';
 
 export const DigitalClock: React.FC = () => {
-    const [time, setTime] = useState(new Date());
-
-    useEffect(() => {
-        const timerId = setInterval(() => {
-            setTime(new Date());
-        }, 1000);
-
-        return () => clearInterval(timerId);
-    }, []);
+    const { displayHours, minutes, seconds } = useClock();
 
     return (
         <div className="text-4xl font-mono font-bold text-gray-800 tracking-wider">
-            {time.toLocaleTimeString([], { hour12: false })}
+            {String(displayHours).padStart(2, '0')}:{String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
         </div>
     );
 };

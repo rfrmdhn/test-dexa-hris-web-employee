@@ -36,7 +36,6 @@ export interface ActivityItemData {
     time: string;
 }
 
-// Attendance Status Types
 export type AttendanceStatus = 'NOT_CHECKED_IN' | 'CHECKED_IN' | 'CHECKED_OUT';
 
 export interface AttendanceStatusResponse {

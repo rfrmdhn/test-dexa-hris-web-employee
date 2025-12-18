@@ -34,7 +34,6 @@ export const CheckInCard: React.FC<CheckInCardProps> = ({
 
     const isClockOut = actionType === 'clock-out';
 
-    // Auto-switch to camera on mount or if file is removed
     React.useEffect(() => {
         if (!file && !imgSrc) setMode('camera');
     }, [file, imgSrc]);
@@ -94,7 +93,6 @@ export const CheckInCard: React.FC<CheckInCardProps> = ({
                         />
                     )
                 ) : (
-                    // Upload Mode
                     <div className="w-full h-full bg-white dark:bg-gray-900 flex flex-col justify-center p-4">
                         {file ? (
                             <div className="relative w-full h-full rounded-lg overflow-hidden group">

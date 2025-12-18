@@ -31,7 +31,6 @@ apiClient.interceptors.response.use(
     (error: AxiosError) => {
         if (error.response && error.response.status === 401) {
             console.warn('Unauthorized access detected. Logging out...', error.config?.url);
-            // Use the store's logout action to ensure state is synchronized
             useAuthStore.getState().logout();
         }
         return Promise.reject(error);

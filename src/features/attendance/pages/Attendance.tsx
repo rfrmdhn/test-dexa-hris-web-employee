@@ -41,7 +41,6 @@ const Attendance = () => {
         );
     }
 
-    // STATE: Work Done (Checked Out)
     if (todayAttendance?.checkOutTime) {
         return (
             <div className="flex flex-col items-center pt-10 px-4 max-w-md mx-auto w-full gap-4">
@@ -65,7 +64,6 @@ const Attendance = () => {
         );
     }
 
-    // STATE: Working (Checked In, Not Checked Out) - Use same UI as clock-in
     if (todayAttendance?.checkInTime) {
         return (
             <CheckInCard
@@ -83,7 +81,6 @@ const Attendance = () => {
         );
     }
 
-    // STATE: Not Checked In (Default)
     return (
         <CheckInCard
             webcamRef={webcamRef}

@@ -15,7 +15,6 @@ export const TopNavBar: React.FC = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
-    // Close dropdown when clicking outside
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -35,7 +34,6 @@ export const TopNavBar: React.FC = () => {
 
     return (
         <header className="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-divider dark:border-primary/20 px-4 md:px-6 py-3 bg-white dark:bg-surface-dark shadow-sm">
-            {/* Logo */}
             <div className="flex items-center gap-4 text-body dark:text-body">
                 <div className="size-8 flex items-center justify-center text-primary">
                     <Icon name="grid_view" size="xl" />
@@ -45,7 +43,6 @@ export const TopNavBar: React.FC = () => {
                 </h2>
             </div>
 
-            {/* Navigation - Hidden on mobile */}
             <nav className="hidden md:flex items-center gap-6">
                 {navLinks.map((link) => {
                     const isActive = location.pathname === link.path;
@@ -64,7 +61,6 @@ export const TopNavBar: React.FC = () => {
                 })}
             </nav>
 
-            {/* Right side: Notifications & Profile */}
             <div className="flex items-center gap-4">
                 <div className="relative" ref={dropdownRef}>
                     <div
@@ -81,7 +77,6 @@ export const TopNavBar: React.FC = () => {
                         />
                     </div>
 
-                    {/* Dropdown Menu */}
                     {isDropdownOpen && (
                         <div className="absolute right-0 mt-2 w-48 rounded-lg bg-white dark:bg-surface-dark shadow-lg border border-divider dark:border-primary/20 py-1 z-50">
                             <button
