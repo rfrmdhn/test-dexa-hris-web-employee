@@ -14,7 +14,7 @@ interface CheckInCardProps {
     handleFileSelect: (file: File) => void;
     submit: () => void;
     isSubmitting: boolean;
-    error: string | null;
+    error?: string | null;
     actionType?: 'clock-in' | 'clock-out';
 }
 

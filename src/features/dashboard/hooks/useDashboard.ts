@@ -15,9 +15,6 @@ export const useDashboard = () => {
         }
     }, [isAuthenticated, navigate]);
 
-    // Removed setInterval logic to prevent re-renders
-
-
     const { data: profile } = useQuery({
         queryKey: ['profile'],
         queryFn: async () => {
@@ -35,10 +32,6 @@ export const useDashboard = () => {
 
     const currentUser = profile || storedUser;
 
-
-    // Removed getGreeting logic - move to component or useCurrentTime
-
-
     const isClockedIn = attendanceStatus?.status === 'CHECKED_IN';
     const isOnDuty = attendanceStatus?.status === 'CHECKED_IN';
 
@@ -46,8 +39,7 @@ export const useDashboard = () => {
         navigate('/attendance');
     };
 
-    const handleFileSelect = (_file: File) => {
-        // Handle file selection logic if needed
+    const handleFileSelect = () => {
     };
     return {
         user: currentUser,

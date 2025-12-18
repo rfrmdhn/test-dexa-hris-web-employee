@@ -9,7 +9,7 @@ interface AttendanceActiveViewProps {
     checkInTime: string;
     onCheckOut: () => void;
     isCheckingOut: boolean;
-    error: string | null;
+    error?: string | null;
 }
 
 export const AttendanceActiveView: React.FC<AttendanceActiveViewProps> = ({

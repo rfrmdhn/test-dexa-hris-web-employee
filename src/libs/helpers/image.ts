@@ -23,7 +23,7 @@ export const compressImage = async (blob: Blob): Promise<Blob> => {
             width = imageSource.width;
             height = imageSource.height;
         } else {
-            // Fallback for older browsers
+
             imageSource = await new Promise<HTMLImageElement>((resolve, reject) => {
                 const img = new Image();
                 const url = URL.createObjectURL(blob);
@@ -60,7 +60,7 @@ export const compressImage = async (blob: Blob): Promise<Blob> => {
 
         ctx.drawImage(imageSource, 0, 0, width, height);
 
-        // Keep ImageBitmap cleanup if needed (though GC handles it usually, explicit close is good)
+
         if (imageSource instanceof ImageBitmap) {
             imageSource.close();
         }

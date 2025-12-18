@@ -31,9 +31,7 @@ export const api = {
             return response.data.data;
         },
         getMyAttendance: async (params?: { startDate?: string; endDate?: string; limit?: number; page?: number }): Promise<PaginatedResponse<AttendanceResponse>> => {
-            // Note: API returns { data: [...], meta: ... } directly in 'data' field of ApiResponse? 
-            // The Contract says Response (200 OK): { data: [...], meta: ... }
-            // Our client assumes ApiResponse<T> where T is that object.
+
             const response = await attendanceClient.get<ApiResponse<PaginatedResponse<AttendanceResponse>>>('/attendance/my', { params });
             return response.data.data;
         },

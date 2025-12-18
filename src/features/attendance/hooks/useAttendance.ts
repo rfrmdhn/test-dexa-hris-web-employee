@@ -1,4 +1,5 @@
 import { useState, useRef, useCallback } from 'react';
+import { AxiosError } from 'axios';
 import Webcam from 'react-webcam';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/libs/api/endpoints';
@@ -15,8 +16,6 @@ const preparePhotoBlob = async (file: File | null, imgSrc: string | null): Promi
         throw new Error('No proof of work provided');
     }
 
-    // Always compress/resize the image to standard size/format (WebP)
-    // This ensures consistency and reduces bandwidth usage
     return compressImage(blob);
 };
 
@@ -34,7 +33,6 @@ export const useAttendance = () => {
         queryFn: () => api.attendance.getStatus(),
     });
 
-    // Map backend response to UI-friendly shape
     const currentAttendance = attendanceStatus?.currentAttendance;
     const todayAttendance = currentAttendance ? {
         checkInTime: currentAttendance.checkInTime,
@@ -55,7 +53,7 @@ export const useAttendance = () => {
             return api.attendance.checkIn({ photo });
         },
         onSuccess: handleMutationSuccess,
-        onError: (err: any) => {
+        onError: (err: AxiosError<{ message: string }>) => {
             console.error(err);
             setError(err.response?.data?.message || 'Failed to check in');
         }
@@ -64,7 +62,7 @@ export const useAttendance = () => {
     const checkOutMutation = useMutation({
         mutationFn: () => api.attendance.checkOut(),
         onSuccess: handleMutationSuccess,
-        onError: (err: any) => {
+        onError: (err: AxiosError<{ message: string }>) => {
             console.error(err);
             setError(err.response?.data?.message || 'Failed to check out');
         }
@@ -112,7 +110,7 @@ export const useAttendance = () => {
         isCheckingIn: checkInMutation.isPending,
         checkOut: checkOutMutation.mutate,
         isCheckingOut: checkOutMutation.isPending,
-        error: error || (checkInMutation.error as any)?.message || (checkOutMutation.error as any)?.message,
+        error: error || (checkInMutation.error as AxiosError<{ message: string }>)?.response?.data?.message || (checkOutMutation.error as AxiosError<{ message: string }>)?.response?.data?.message,
         isSuccess,
         successImage,
         resetState,

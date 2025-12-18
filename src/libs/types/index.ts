@@ -1,4 +1,4 @@
-// Common
+
 export interface Meta {
     total: number;
     page: number;
@@ -10,7 +10,7 @@ export interface PaginatedResponse<T> {
     meta: Meta;
 }
 
-// User / Auth
+
 export interface User {
     id: string;
     name: string;
@@ -31,7 +31,7 @@ export interface LoginResponseData {
     user: User;
 }
 
-// Attendance
+
 export interface AttendanceSubmission {
     photo: Blob;
 }
@@ -40,10 +40,10 @@ export interface AttendanceResponse {
     id: string;
     userId?: string;
     date: string;
-    checkIn: string; // "2024-03-20T09:00:00.000Z"
-    checkOut?: string | null; // "2024-03-20T18:00:00.000Z"
+    checkIn: string;
+    checkOut?: string | null;
     photoUrl?: string;
-    status: 'PRESENT' | 'ABSENT' | 'LATE'; // Assuming status values
+    status: 'PRESENT' | 'ABSENT' | 'LATE';
 }
 
 export interface CurrentAttendance {

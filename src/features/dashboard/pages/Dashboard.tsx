@@ -16,8 +16,7 @@ const Dashboard: React.FC = () => {
 
     const currentTime = useCurrentTime();
 
-    // Derived state from currentTime - safe to re-compute here as it only affects text nodes
-    // Ideally extract this header into a memoized component <DashboardHeader />
+
     const dayName = format(currentTime, 'EEEE');
     const monthDay = format(currentTime, 'MMMM d');
 
