@@ -14,8 +14,8 @@ export const api = {
     },
     attendance: {
         getStatus: async (): Promise<AttendanceStatusResponse> => {
-            const response = await attendanceClient.get<ApiResponse<AttendanceStatusResponse>>('/attendance/status');
-            return response.data.data;
+            const response = await attendanceClient.get<AttendanceStatusResponse>('/attendance/status');
+            return response.data;
         },
         checkIn: async (data: AttendanceSubmission): Promise<AttendanceResponse> => {
             const formData = new FormData();
