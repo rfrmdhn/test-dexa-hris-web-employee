@@ -1,5 +1,5 @@
 import apiClient, { type ApiResponse } from './client';
-import type { User, LoginCredentials, LoginResponseData, AttendanceSubmission, AttendanceResponse } from '@/libs/types';
+import type { User, LoginCredentials, LoginResponseData, AttendanceSubmission, AttendanceResponse, AttendanceStatusResponse } from '@/libs/types';
 
 export const api = {
     auth: {
@@ -13,6 +13,10 @@ export const api = {
         },
     },
     attendance: {
+        getStatus: async (): Promise<AttendanceStatusResponse> => {
+            const response = await apiClient.get<ApiResponse<AttendanceStatusResponse>>('/attendance/status');
+            return response.data.data;
+        },
         checkIn: async (data: AttendanceSubmission): Promise<AttendanceResponse> => {
             const formData = new FormData();
             formData.append('photo', data.photo, 'attendance.webp');

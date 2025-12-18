@@ -42,6 +42,7 @@ export const ClockInCard: React.FC<ClockInCardProps> = ({
             <Button
                 onClick={onClockAction}
                 disabled={isLoading}
+                variant={isClockedIn ? 'danger' : 'primary'}
                 className="w-full max-w-[280px] h-16 text-lg"
             >
                 <Icon name={isClockedIn ? 'logout' : 'login'} className="mr-3" />

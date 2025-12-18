@@ -33,6 +33,13 @@ export const useDashboard = () => {
         enabled: isAuthenticated
     });
 
+    // Fetch attendance status to determine clock-in/out state
+    const { data: attendanceStatus, isLoading: isLoadingStatus } = useQuery({
+        queryKey: ['attendance-status'],
+        queryFn: () => api.attendance.getStatus(),
+        enabled: isAuthenticated
+    });
+
     // Use profile from API if available, else stored user
     const currentUser = profile || storedUser;
 
@@ -43,7 +50,11 @@ export const useDashboard = () => {
         return 'Good Evening';
     };
 
-    const isClockedIn = false; // logic moved to Attendance module, this is just a placeholder or could be removed if unused
+    // Determine clock-in status based on API response
+    // CHECKED_IN = user is currently on duty (needs to clock out)
+    // NOT_CHECKED_IN or CHECKED_OUT = user is off duty (needs to clock in)
+    const isClockedIn = attendanceStatus?.status === 'CHECKED_IN';
+    const isOnDuty = attendanceStatus?.status === 'CHECKED_IN';
 
     const handleClockAction = () => {
         navigate('/attendance');
@@ -56,7 +67,9 @@ export const useDashboard = () => {
     return {
         user: currentUser,
         isClockedIn,
-        isLoading: false,
+        isOnDuty,
+        attendanceStatus,
+        isLoading: isLoadingStatus,
         dayName: format(currentTime, 'EEEE'),
         monthDay: format(currentTime, 'MMMM d'),
         greeting: getGreeting(),
