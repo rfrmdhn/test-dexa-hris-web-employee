@@ -30,6 +30,13 @@ Before you begin, ensure you have the following installed:
    npm install
    ```
 
+3. **Configure Environment Variables**:
+   Copy the example environment file to create your local configuration:
+   ```bash
+   cp .env.example .env
+   ```
+   Modify `.env` if your backend services are running on different ports (default: Auth on 3001, Attendance on 3002).
+
 ## Running the Project
 
 To start the development server:
