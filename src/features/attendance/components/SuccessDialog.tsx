@@ -17,10 +17,10 @@ export const SuccessDialog: React.FC<SuccessDialogProps> = ({ imageUrl, onConfir
                     </div>
                 </div>
 
-                <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2">
+                <h2 className="text-2xl font-bold text-body dark:text-body mb-2">
                     Clock In Successful!
                 </h2>
-                <p className="text-gray-500 text-sm mb-6">
+                <p className="text-subtle dark:text-gray-400 text-sm mb-6">
                     You have successfully recorded your attendance.
                 </p>
 
