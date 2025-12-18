@@ -1,8 +1,6 @@
 import React from 'react';
 import { DashboardLayout } from '@/components/templates/DashboardLayout';
 import { ClockInCard } from '@/features/attendance/components/ClockInCard';
-import { Icon } from '@/components/atoms/Icon';
-import { Button } from '@/components/atoms/Button';
 import { useDashboard } from '../hooks/useDashboard';
 
 
