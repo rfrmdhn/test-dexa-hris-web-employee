@@ -28,18 +28,8 @@ const Dashboard: React.FC = () => {
                         {greeting}, {user?.name?.split(' ')[0] || 'there'}
                     </h1>
                     <p className="text-subtle dark:text-gray-400 text-base font-normal">
-                        Ready to start your day?
+                        {isClockedIn ? 'Ready to end your day?' : 'Ready to start your day?'}
                     </p>
-                </div>
-                <div className="flex gap-3">
-                    <Button variant="outline" className="h-10 px-4">
-                        <Icon name="history" size="sm" className="mr-2" />
-                        History
-                    </Button>
-                    <Button variant="outline" className="h-10 px-4">
-                        <Icon name="settings" size="sm" className="mr-2" />
-                        Settings
-                    </Button>
                 </div>
             </div>
 
