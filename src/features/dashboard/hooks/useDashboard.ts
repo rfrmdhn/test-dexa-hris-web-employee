@@ -46,7 +46,7 @@ export const useDashboard = () => {
         navigate('/attendance');
     };
 
-    const handleFileSelect = (file: File) => {
+    const handleFileSelect = (_file: File) => {
         // Handle file selection logic if needed
     };
     return {
