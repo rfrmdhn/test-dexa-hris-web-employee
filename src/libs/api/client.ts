@@ -41,5 +41,5 @@ const createApiClient = (baseURL: string) => {
     return client;
 };
 
-export const authClient = createApiClient(import.meta.env.VITE_AUTH_SERVICE_URL || 'http://localhost:3001');
-export const attendanceClient = createApiClient(import.meta.env.VITE_ATTENDANCE_SERVICE_URL || 'http://localhost:3002');
+export const authClient = createApiClient(import.meta.env.AUTH_SERVICE_URL || 'http://localhost:3001');
+export const attendanceClient = createApiClient(import.meta.env.ATTENDANCE_SERVICE_URL || 'http://localhost:3002');
