@@ -11,6 +11,9 @@ export const useAttendance = () => {
     const webcamRef = useRef<Webcam>(null);
     const [imgSrc, setImgSrc] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
+    const [file, setFile] = useState<File | null>(null);
+    const [isSuccess, setIsSuccess] = useState(false);
+    const [successImage, setSuccessImage] = useState<string | null>(null);
 
     const today = format(new Date(), 'yyyy-MM-dd');
 
@@ -27,19 +30,28 @@ export const useAttendance = () => {
 
     const checkInMutation = useMutation({
         mutationFn: async () => {
-            if (!imgSrc) throw new Error('No image captured');
-            const blob = dataURLtoBlob(imgSrc);
-            // Optional: Compress if needed, strict brief didn't enforce compression but it's good practice. 
-            // Existing code had it, I'll keep it for UX but it's not strictly "extra features" logic-wise.
-            const compressedBlob = await compressImage(blob);
-            return api.attendance.checkIn({ photo: compressedBlob });
+            if (file) {
+                // File upload mode
+                return api.attendance.checkIn({ photo: file });
+            } else if (imgSrc) {
+                // Webcam mode
+                const blob = dataURLtoBlob(imgSrc);
+                const compressedBlob = await compressImage(blob);
+                return api.attendance.checkIn({ photo: compressedBlob });
+            } else {
+                throw new Error('No proof of work provided');
+            }
         },
         onSuccess: (newRecord) => {
+            // Do NOT invalidate queries immediately if we want to show the success state independently of the "todayAttendance" check logic
+            // or we can invalidate but rely on local isSuccess state for the UI
             queryClient.setQueryData(['attendance', today], (oldData: AttendanceResponse[] | undefined) => {
                 return oldData ? [...oldData, newRecord] : [newRecord];
             });
-            queryClient.invalidateQueries({ queryKey: ['attendance'] });
-            setImgSrc(null);
+            // queryClient.invalidateQueries({ queryKey: ['attendance'] }); // Defer invalidation or let it happen
+
+            setSuccessImage(imgSrc || (file ? URL.createObjectURL(file) : null));
+            setIsSuccess(true);
             setError(null);
         },
         onError: (err: any) => {
@@ -64,12 +76,28 @@ export const useAttendance = () => {
         const imageSrc = webcamRef.current?.getScreenshot();
         if (imageSrc) {
             setImgSrc(imageSrc);
+            setFile(null); // Clear file if capturing from camera
             setError(null);
         }
     }, [webcamRef]);
 
     const retake = useCallback(() => {
         setImgSrc(null);
+        setFile(null);
+        setError(null);
+    }, []);
+
+    const handleFileSelect = useCallback((selectedFile: File) => {
+        setFile(selectedFile);
+        setImgSrc(null); // Clear camera capture if file selected
+        setError(null);
+    }, []);
+
+    const resetState = useCallback(() => {
+        setIsSuccess(false);
+        setImgSrc(null);
+        setFile(null);
+        setSuccessImage(null);
         setError(null);
     }, []);
 
@@ -77,8 +105,10 @@ export const useAttendance = () => {
         // Webcam Refs & State
         webcamRef,
         imgSrc,
+        file,
         capture,
         retake,
+        handleFileSelect,
 
         // Data
         todayAttendance,
@@ -92,5 +122,8 @@ export const useAttendance = () => {
 
         // Status
         error: error || (checkInMutation.error as any)?.message || (checkOutMutation.error as any)?.message,
+        isSuccess,
+        successImage,
+        resetState,
     };
 };

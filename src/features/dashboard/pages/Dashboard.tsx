@@ -2,19 +2,10 @@ import React from 'react';
 import { DashboardLayout } from '@/components/templates/DashboardLayout';
 import { ClockInCard } from '@/features/attendance/components/ClockInCard';
 import { ProofUploadCard } from '@/features/attendance/components/ProofUploadCard';
-import { RecentActivityList } from '../components/RecentActivityList';
-import { TimeWorkedCard } from '@/features/attendance/components/TimeWorkedCard';
-import { WeeklySummaryCard } from '@/features/attendance/components/WeeklySummaryCard';
 import { Icon } from '@/components/atoms/Icon';
 import { Button } from '@/components/atoms/Button';
 import { useDashboard } from '../hooks/useDashboard';
-import type { ActivityItemData } from '../components/ActivityItem';
 
-const mockActivities: ActivityItemData[] = [
-    { id: '1', type: 'clock_out', date: 'Oct 21', time: '06:02 PM' },
-    { id: '2', type: 'clock_in', date: 'Oct 21', time: '08:58 AM' },
-    { id: '3', type: 'clock_out', date: 'Oct 20', time: '05:45 PM' },
-];
 
 const Dashboard: React.FC = () => {
     const {
@@ -61,16 +52,10 @@ const Dashboard: React.FC = () => {
                         onClockAction={handleClockAction}
                         isLoading={isLoading}
                     />
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <TimeWorkedCard checkInTime={new Date().toISOString()} />
-                        <WeeklySummaryCard hoursWorked={38.5} targetHours={40} deltaHours={2.5} />
-                    </div>
                 </div>
 
                 <div className="flex flex-col gap-6">
                     <ProofUploadCard onFileSelect={handleFileSelect} />
-                    <RecentActivityList activities={mockActivities} />
                 </div>
             </div>
         </DashboardLayout>

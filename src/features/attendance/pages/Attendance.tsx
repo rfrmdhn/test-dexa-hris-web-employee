@@ -3,6 +3,7 @@ import { useAttendance } from '../hooks/useAttendance';
 import { CheckInCard } from '../components/CheckInCard';
 import { CheckOutCard } from '../components/CheckOutCard';
 import { TimeWorkedCard } from '../components/TimeWorkedCard';
+import { SuccessDialog } from '../components/SuccessDialog';
 import { Button } from '@/components/atoms/Button';
 import { Card } from '@/components/atoms/Card';
 import { Icon } from '@/components/atoms/Icon';
@@ -11,20 +12,34 @@ const Attendance = () => {
     const {
         webcamRef,
         imgSrc,
+        file,
         capture,
         retake,
+        handleFileSelect,
         checkIn,
         isCheckingIn,
         checkOut,
         isCheckingOut,
         todayAttendance,
         isLoading,
-        error
+        error,
+        isSuccess,
+        successImage
     } = useAttendance();
+
     const navigate = useNavigate();
 
     if (isLoading) {
         return <div className="p-4 text-center">Loading attendance status...</div>;
+    }
+
+    if (isSuccess) {
+        return (
+            <SuccessDialog
+                imageUrl={successImage}
+                onConfirm={() => navigate('/', { replace: true })}
+            />
+        );
     }
 
     // STATE: Work Done (Checked Out)
@@ -83,8 +98,10 @@ const Attendance = () => {
         <CheckInCard
             webcamRef={webcamRef}
             imgSrc={imgSrc}
+            file={file}
             capture={capture}
             retake={retake}
+            handleFileSelect={handleFileSelect}
             submit={() => checkIn()}
             isSubmitting={isCheckingIn}
             error={error}
