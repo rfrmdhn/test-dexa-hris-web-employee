@@ -5,12 +5,19 @@ import { api } from '@/libs/api/endpoints';
 import { dataURLtoBlob, compressImage } from '@/libs/helpers/image';
 
 const preparePhotoBlob = async (file: File | null, imgSrc: string | null): Promise<Blob> => {
-    if (file) return file;
-    if (imgSrc) {
-        const blob = dataURLtoBlob(imgSrc);
-        return compressImage(blob);
+    let blob: Blob;
+
+    if (file) {
+        blob = file;
+    } else if (imgSrc) {
+        blob = dataURLtoBlob(imgSrc);
+    } else {
+        throw new Error('No proof of work provided');
     }
-    throw new Error('No proof of work provided');
+
+    // Always compress/resize the image to standard size/format (WebP)
+    // This ensures consistency and reduces bandwidth usage
+    return compressImage(blob);
 };
 
 export const useAttendance = () => {

@@ -1,14 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useAuthStore } from '../../auth/stores/useAuthStore';
 import { useNavigate } from 'react-router-dom';
-import { format } from 'date-fns';
 import { api } from '@/libs/api/endpoints';
 import { useQuery } from '@tanstack/react-query';
 
 export const useDashboard = () => {
-    const { user: storedUser, isAuthenticated } = useAuthStore();
+    const storedUser = useAuthStore((state) => state.user);
+    const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
     const navigate = useNavigate();
-    const [currentTime, setCurrentTime] = useState(new Date());
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -16,10 +15,8 @@ export const useDashboard = () => {
         }
     }, [isAuthenticated, navigate]);
 
-    useEffect(() => {
-        const timer = setInterval(() => setCurrentTime(new Date()), 1000);
-        return () => clearInterval(timer);
-    }, []);
+    // Removed setInterval logic to prevent re-renders
+
 
     const { data: profile } = useQuery({
         queryKey: ['profile'],
@@ -38,12 +35,9 @@ export const useDashboard = () => {
 
     const currentUser = profile || storedUser;
 
-    const getGreeting = () => {
-        const hour = currentTime.getHours();
-        if (hour < 12) return 'Good Morning';
-        if (hour < 18) return 'Good Afternoon';
-        return 'Good Evening';
-    };
+
+    // Removed getGreeting logic - move to component or useCurrentTime
+
 
     const isClockedIn = attendanceStatus?.status === 'CHECKED_IN';
     const isOnDuty = attendanceStatus?.status === 'CHECKED_IN';
@@ -53,18 +47,14 @@ export const useDashboard = () => {
     };
 
     const handleFileSelect = (file: File) => {
-        console.log('File selected:', file);
+        // Handle file selection logic if needed
     };
-
     return {
         user: currentUser,
         isClockedIn,
         isOnDuty,
         attendanceStatus,
         isLoading: isLoadingStatus,
-        dayName: format(currentTime, 'EEEE'),
-        monthDay: format(currentTime, 'MMMM d'),
-        greeting: getGreeting(),
         handleClockAction,
         handleFileSelect
     };

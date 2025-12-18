@@ -1,7 +1,9 @@
 import React from 'react';
+import { format } from 'date-fns';
 import { DashboardLayout } from '@/components/templates/DashboardLayout';
 import { ClockInCard } from '@/features/attendance/components/ClockInCard';
 import { useDashboard } from '../hooks/useDashboard';
+import { useCurrentTime } from '../hooks/useCurrentTime';
 
 
 const Dashboard: React.FC = () => {
@@ -9,11 +11,22 @@ const Dashboard: React.FC = () => {
         user,
         isClockedIn,
         isLoading,
-        dayName,
-        monthDay,
-        greeting,
         handleClockAction
     } = useDashboard();
+
+    const currentTime = useCurrentTime();
+
+    // Derived state from currentTime - safe to re-compute here as it only affects text nodes
+    // Ideally extract this header into a memoized component <DashboardHeader />
+    const dayName = format(currentTime, 'EEEE');
+    const monthDay = format(currentTime, 'MMMM d');
+
+    const getGreeting = () => {
+        const hour = currentTime.getHours();
+        if (hour < 12) return 'Good Morning';
+        if (hour < 18) return 'Good Afternoon';
+        return 'Good Evening';
+    };
 
     return (
         <DashboardLayout>
@@ -23,7 +36,7 @@ const Dashboard: React.FC = () => {
                         {dayName}, {monthDay}
                     </p>
                     <h1 className="text-body dark:text-body text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">
-                        {greeting}, {user?.name?.split(' ')[0] || 'there'}
+                        {getGreeting()}, {user?.name?.split(' ')[0] || 'there'}
                     </h1>
                     <p className="text-subtle dark:text-gray-400 text-base font-normal">
                         {isClockedIn ? 'Ready to end your day?' : 'Ready to start your day?'}

@@ -11,18 +11,18 @@ interface AuthState {
 
 export const useAuthStore = create<AuthState>((set) => ({
     token: localStorage.getItem('token'),
-    user: JSON.parse(localStorage.getItem('user') || 'null'),
+    user: null, // Don't persist user PII in localStorage, fetch on boot
     isAuthenticated: !!localStorage.getItem('token'),
 
     login: (token, user) => {
         localStorage.setItem('token', token);
-        localStorage.setItem('user', JSON.stringify(user));
+        // Do not store user in localStorage
         set({ token, user, isAuthenticated: true });
     },
 
     logout: () => {
         localStorage.removeItem('token');
-        localStorage.removeItem('user');
+        // localStorage.removeItem('user'); // No need to remove if we don't store it
         set({ token: null, user: null, isAuthenticated: false });
     },
 }));

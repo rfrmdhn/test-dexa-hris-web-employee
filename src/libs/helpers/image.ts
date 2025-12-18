@@ -12,36 +12,60 @@ export const dataURLtoBlob = (dataurl: string): Blob => {
     return new Blob([u8arr], { type: mime });
 };
 
-export const compressImage = (blob: Blob): Promise<Blob> => {
-    return new Promise((resolve, reject) => {
-        const img = new Image();
-        const url = URL.createObjectURL(blob);
+export const compressImage = async (blob: Blob): Promise<Blob> => {
+    try {
+        let imageSource: ImageBitmap | HTMLImageElement;
+        let width: number;
+        let height: number;
 
-        img.onload = () => {
-            URL.revokeObjectURL(url);
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
+        if (typeof createImageBitmap !== 'undefined') {
+            imageSource = await createImageBitmap(blob);
+            width = imageSource.width;
+            height = imageSource.height;
+        } else {
+            // Fallback for older browsers
+            imageSource = await new Promise<HTMLImageElement>((resolve, reject) => {
+                const img = new Image();
+                const url = URL.createObjectURL(blob);
+                img.onload = () => {
+                    URL.revokeObjectURL(url);
+                    resolve(img);
+                };
+                img.onerror = () => {
+                    URL.revokeObjectURL(url);
+                    reject(new Error('Failed to load image'));
+                };
+                img.src = url;
+            });
+            width = imageSource.width;
+            height = imageSource.height;
+        }
 
-            if (!ctx) {
-                reject(new Error('Failed to get canvas context'));
-                return;
-            }
+        const MAX_SIZE = 1024;
 
-            const MAX_SIZE = 1024;
-            let { width, height } = img;
+        if (width > height && width > MAX_SIZE) {
+            height = (height * MAX_SIZE) / width;
+            width = MAX_SIZE;
+        } else if (height > MAX_SIZE) {
+            width = (width * MAX_SIZE) / height;
+            height = MAX_SIZE;
+        }
 
-            if (width > height && width > MAX_SIZE) {
-                height = (height * MAX_SIZE) / width;
-                width = MAX_SIZE;
-            } else if (height > MAX_SIZE) {
-                width = (width * MAX_SIZE) / height;
-                height = MAX_SIZE;
-            }
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
 
-            canvas.width = width;
-            canvas.height = height;
-            ctx.drawImage(img, 0, 0, width, height);
+        const ctx = canvas.getContext('2d');
+        if (!ctx) throw new Error('Failed to get canvas context');
 
+        ctx.drawImage(imageSource, 0, 0, width, height);
+
+        // Keep ImageBitmap cleanup if needed (though GC handles it usually, explicit close is good)
+        if (imageSource instanceof ImageBitmap) {
+            imageSource.close();
+        }
+
+        return new Promise((resolve, reject) => {
             canvas.toBlob(
                 (compressedBlob) => {
                     if (compressedBlob) {
@@ -53,13 +77,9 @@ export const compressImage = (blob: Blob): Promise<Blob> => {
                 'image/webp',
                 0.7
             );
-        };
-
-        img.onerror = () => {
-            URL.revokeObjectURL(url);
-            reject(new Error('Failed to load image for compression'));
-        };
-
-        img.src = url;
-    });
+        });
+    } catch (error) {
+        console.error('Image compression error:', error);
+        throw error;
+    }
 };
