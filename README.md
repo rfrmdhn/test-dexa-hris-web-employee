@@ -1,15 +1,28 @@
 # Web Employee Portal
 
-A modern employee portal web application built with React, TypeScript, and Vite.
+A modern employee portal web application built with React 19, TypeScript, and Vite, designed to interface with the Dexa HRIS microservices.
 
 ## Tech Stack
 
-- **Framework:** [React](https://react.dev/)
+- **Framework:** [React 19](https://react.dev/)
 - **Language:** [TypeScript](https://www.typescriptlang.org/)
 - **Build Tool:** [Vite](https://vitejs.dev/)
-- **Styling:** [TailwindCSS](https://tailwindcss.com/)
+- **Styling:** [TailwindCSS v4](https://tailwindcss.com/)
 - **State Management:** [Zustand](https://github.com/pmndrs/zustand)
-- **Routing:** [React Router](https://reactrouter.com/)
+- **Data Fetching:** [TanStack Query (React Query)](https://tanstack.com/query/latest)
+- **Routing:** [React Router v7](https://reactrouter.com/)
+- **HTTP Client:** [Axios](https://axios-http.com/)
+- **Utils:** [Date-fns](https://date-fns.org/), [React Webcam](https://www.npmjs.com/package/react-webcam)
+
+## Features
+
+- **Authentication**: secure login for employees.
+- **Dashboard**: Overview of attendance stats and activities.
+- **Attendance**:
+    - **Check-In**: Capture photo verification using the device camera.
+    - **Check-Out**: Simple one-click checkout.
+    - **History**: View past attendance records with details.
+- **Responsive Design**: Mobile-first approach for on-the-go usage.
 
 ## Prerequisites
 
@@ -35,7 +48,13 @@ Before you begin, ensure you have the following installed:
    ```bash
    cp .env.example .env
    ```
-   Modify `.env` if your backend services are running on different ports (default: Auth on 3001, Attendance on 3002).
+   
+   Update `.env` to point to your running microservices:
+   ```env
+   # Service URLs
+   AUTH_SERVICE_URL=http://localhost:3001
+   ATTENDANCE_SERVICE_URL=http://localhost:3002
+   ```
 
 ## Running the Project
 
@@ -43,7 +62,7 @@ To start the development server:
 ```bash
 npm run dev
 ```
-The application will be available at `http://localhost:5173` (or another port if 5173 is busy).
+The application will be available at `http://localhost:5173`.
 
 ## Building for Production
 
