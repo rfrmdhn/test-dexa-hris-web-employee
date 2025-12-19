@@ -1,22 +1,31 @@
 import React from 'react';
+import clsx from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
 interface FormFieldProps {
     label: string;
+    id?: string; // For htmlFor
     rightElement?: React.ReactNode;
     children: React.ReactNode;
     error?: string;
+    className?: string; // Container class
 }
 
 export const FormField: React.FC<FormFieldProps> = ({
     label,
+    id,
     rightElement,
     children,
-    error
+    error,
+    className
 }) => {
     return (
-        <div className="flex flex-col gap-2">
+        <div className={twMerge(clsx("flex flex-col gap-2", className))}>
             <div className="flex justify-between items-center">
-                <label className="text-base font-medium leading-normal text-body dark:text-body">
+                <label
+                    htmlFor={id}
+                    className="text-base font-medium leading-normal text-body dark:text-gray-200"
+                >
                     {label}
                 </label>
                 {rightElement}

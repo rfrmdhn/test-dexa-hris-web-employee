@@ -1,5 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
 interface AvatarProps {
     src: string;
@@ -22,11 +23,11 @@ export const Avatar: React.FC<AvatarProps> = ({
 }) => {
     return (
         <div
-            className={clsx(
-                'bg-center bg-no-repeat bg-cover rounded-full ring-2 ring-white dark:ring-[#2a3441] shadow-sm',
+            className={twMerge(clsx(
+                'bg-center bg-no-repeat bg-cover rounded-full ring-2 ring-white dark:ring-gray-800 shadow-sm shrink-0',
                 sizeMap[size],
                 className
-            )}
+            ))}
             style={{ backgroundImage: `url("${src}")` }}
             role="img"
             aria-label={alt}
