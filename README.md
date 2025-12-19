@@ -52,8 +52,8 @@ Before you begin, ensure you have the following installed:
    Update `.env` to point to your running microservices:
    ```env
    # Service URLs
-   AUTH_SERVICE_URL=http://localhost:3001
-   ATTENDANCE_SERVICE_URL=http://localhost:3002
+   VITE_AUTH_SERVICE_URL=http://localhost:3001
+   VITE_ATTENDANCE_SERVICE_URL=http://localhost:3002
    ```
 
 ## Running the Project
