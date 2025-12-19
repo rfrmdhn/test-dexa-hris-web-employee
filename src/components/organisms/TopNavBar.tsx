@@ -19,7 +19,7 @@ export const TopNavBar: React.FC = () => {
                     <Icon name="grid_view" size="xl" />
                 </div>
                 <h2 className="text-body dark:text-body text-lg font-bold leading-tight tracking-[-0.015em]">
-                    WorkSpace
+                    HRIS System
                 </h2>
             </div>
 
