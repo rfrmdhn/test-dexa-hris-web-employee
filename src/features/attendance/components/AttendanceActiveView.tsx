@@ -26,8 +26,8 @@ export const AttendanceActiveView: React.FC<AttendanceActiveViewProps> = ({
                 <div className="text-5xl mb-4 text-blue-500 flex justify-center">
                     <Icon name="schedule" className="text-5xl" />
                 </div>
-                <h2 className="text-2xl font-bold mb-2 text-gray-900 dark:text-white">You're Clocked In</h2>
-                <p className="text-gray-500 mb-6">Ready to end your day?</p>
+                <h2 className="text-2xl font-bold mb-2 text-black dark:text-white">You're Clocked In</h2>
+                <p className="text-gray-600 dark:text-gray-400 mb-6">Ready to end your day?</p>
 
                 <TimeWorkedCard
                     checkInTime={checkInTime}
