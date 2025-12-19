@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
@@ -19,7 +20,7 @@ export const useLogin = () => {
             login(data.access_token, data.user);
             navigate('/dashboard');
         },
-        onError: (error: any) => {
+        onError: (error: AxiosError<{ message: string }>) => {
             console.error('Login failed', error);
 
             const message = error?.response?.data?.message || 'Login failed. Please check your credentials.';
