@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Icon } from '@/components/atoms/Icon';
 import type { ActivityItemData } from '@/libs/types';
 
@@ -8,7 +8,7 @@ interface ActivityItemProps {
     activity: ActivityItemData;
 }
 
-export const ActivityItem: React.FC<ActivityItemProps> = ({ activity }) => {
+export const ActivityItem: React.FC<ActivityItemProps> = memo(({ activity }) => {
     const isClockIn = activity.type === 'clock_in';
 
     return (
@@ -34,4 +34,6 @@ export const ActivityItem: React.FC<ActivityItemProps> = ({ activity }) => {
             </span>
         </div>
     );
-};
+});
+
+ActivityItem.displayName = 'ActivityItem';

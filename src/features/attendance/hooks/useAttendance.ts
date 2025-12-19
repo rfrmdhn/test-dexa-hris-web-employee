@@ -83,10 +83,12 @@ export const useAttendance = () => {
         setError(null);
     }, []);
 
-    const handleFileSelect = useCallback((selectedFile: File) => {
+    const handleFileSelect = useCallback((selectedFile: File | null) => {
         setFile(selectedFile);
-        setImgSrc(null);
-        setError(null);
+        if (selectedFile) {
+            setImgSrc(null);
+            setError(null);
+        }
     }, []);
 
     const resetState = useCallback(() => {

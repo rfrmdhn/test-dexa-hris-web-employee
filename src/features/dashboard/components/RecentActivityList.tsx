@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { ActivityItem } from './ActivityItem';
 import type { ActivityItemData } from './ActivityItem';
 
@@ -11,9 +12,9 @@ export const RecentActivityList: React.FC<RecentActivityListProps> = ({ activiti
         <div className="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-divider dark:border-primary/20 overflow-hidden flex-1">
             <div className="p-4 border-b border-divider dark:border-primary/20 flex justify-between items-center">
                 <h3 className="text-base font-bold text-body dark:text-body">Recent Activity</h3>
-                <a href="#" className="text-xs text-primary font-medium hover:underline">
+                <Link to="/history" className="text-xs text-primary font-medium hover:underline">
                     View All
-                </a>
+                </Link>
             </div>
             <div className="divide-y divide-divider dark:divide-primary/20">
                 {activities.length > 0 ? (
