@@ -24,8 +24,9 @@ export const LoginForm: React.FC = () => {
                 </div>
             )}
 
-            <FormField label="Employee ID or Email" error={errors.email}>
+            <FormField label="Employee ID or Email" error={errors.email} id="email">
                 <Input
+                    id="email"
                     placeholder="e.g. j.doe@company.com"
                     icon="person"
                     value={email}
@@ -38,6 +39,7 @@ export const LoginForm: React.FC = () => {
             <FormField
                 label="Password"
                 error={errors.password}
+                id="password"
                 rightElement={
                     <a href="#" className="text-sm font-semibold text-primary hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                         Forgot Password?
@@ -45,6 +47,7 @@ export const LoginForm: React.FC = () => {
                 }
             >
                 <PasswordInput
+                    id="password"
                     placeholder="Enter your password"
                     icon="lock"
                     value={password}

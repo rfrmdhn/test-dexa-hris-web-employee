@@ -21,7 +21,8 @@ export const useLogin = () => {
         },
         onError: (error: any) => {
             console.error('Login failed', error);
-            const message = error.response?.data?.message || 'Login failed. Please check your credentials.';
+            // safe access to error response
+            const message = error?.response?.data?.message || 'Login failed. Please check your credentials.';
             setErrors({ form: message });
         }
     });

@@ -11,7 +11,7 @@ interface CheckInCardProps {
     file: File | null;
     capture: () => void;
     retake: () => void;
-    handleFileSelect: (file: File) => void;
+    handleFileSelect: (file: File | null) => void;
     submit: () => void;
     isSubmitting: boolean;
     error?: string | null;
@@ -50,7 +50,7 @@ export const CheckInCard: React.FC<CheckInCardProps> = ({
 
             <div className="flex gap-2 mb-4 bg-gray-100 dark:bg-gray-800 p-1 rounded-lg">
                 <button
-                    onClick={() => { setMode('camera'); if (file) handleFileSelect(null as any); }}
+                    onClick={() => { setMode('camera'); if (file) handleFileSelect(null); }}
                     className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${mode === 'camera'
                         ? 'bg-white dark:bg-gray-700 text-primary shadow-sm'
                         : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
@@ -102,7 +102,7 @@ export const CheckInCard: React.FC<CheckInCardProps> = ({
                                     className="w-full h-full object-contain bg-gray-900"
                                 />
                                 <button
-                                    onClick={() => handleFileSelect(null as any)}
+                                    onClick={() => handleFileSelect(null)}
                                     className="absolute top-2 right-2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
                                 >
                                     <Icon name="close" size="sm" />
@@ -134,7 +134,7 @@ export const CheckInCard: React.FC<CheckInCardProps> = ({
                     <>
                         <Button fullWidth variant="outline" onClick={() => {
                             if (mode === 'camera') retake();
-                            else handleFileSelect(null as any);
+                            else handleFileSelect(null);
                         }} disabled={isSubmitting}>
                             {mode === 'camera' ? 'Retake' : 'Change File'}
                         </Button>
