@@ -22,15 +22,15 @@ export const Avatar: React.FC<AvatarProps> = ({
     className,
 }) => {
     return (
-        <div
+        <img
+            src={src}
+            alt={alt}
+            loading="lazy"
             className={twMerge(clsx(
-                'bg-center bg-no-repeat bg-cover rounded-full ring-2 ring-white dark:ring-gray-800 shadow-sm shrink-0',
+                'rounded-full ring-2 ring-white dark:ring-gray-800 shadow-sm shrink-0 object-cover',
                 sizeMap[size],
                 className
             ))}
-            style={{ backgroundImage: `url("${src}")` }}
-            role="img"
-            aria-label={alt}
         />
     );
 };
