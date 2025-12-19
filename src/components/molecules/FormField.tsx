@@ -4,11 +4,11 @@ import { twMerge } from 'tailwind-merge';
 
 interface FormFieldProps {
     label: string;
-    id?: string; // For htmlFor
+    id?: string;
     rightElement?: React.ReactNode;
     children: React.ReactNode;
     error?: string;
-    className?: string; // Container class
+    className?: string;
 }
 
 export const FormField: React.FC<FormFieldProps> = ({

@@ -22,7 +22,7 @@ export const UserDropdown: React.FC<UserDropdownProps> = ({
     onLogout,
     dropdownRef
 }) => {
-    // Handle keyboard interaction for the trigger
+
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
